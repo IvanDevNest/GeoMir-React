@@ -1,19 +1,14 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
-import { Register } from './assets/Auth/Register'
-import Login from './assets/Auth/Login'
+import LoginRegister from './Auth/LoginRegister'
 
-// function App() {
+function App() {
 
-//   return (
-//     <div>
-      
-//     </div>
-//   )
-// }
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <LoginRegister />
-)
+  return (
+      <LoginRegister />
+  
+  )
+}
 
 export default App
