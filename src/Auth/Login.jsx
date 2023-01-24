@@ -1,14 +1,15 @@
 import React from 'react'
 import { useState } from 'react';
+import { useContext } from "react";
+import { UserContext } from "../userContext";
 
 
 export default function Login({ setCanvi }) {
 
   let [email, setEmail] = useState("");
-
-  let [name, setName] = useState("");
+  let { authToken, setAuthToken } = useContext(UserContext);
   let [password, setPassword] = useState("");
-  let [error, setError] = useState("");
+    let [error, setError] = useState("");
 
 
   const sendLogin = (e) => {
@@ -25,7 +26,9 @@ export default function Login({ setCanvi }) {
       .then((resposta) => {
         console.log(resposta);
         if (resposta.success === true) {
-          alert(resposta.authToken);
+          setAuthToken(resposta.authToken);
+
+
         }
         else {
           setError(resposta.message)
@@ -36,7 +39,6 @@ export default function Login({ setCanvi }) {
         alert("Catchch");
       });
 
-    alert("He enviat les Dades:  " + name + "/" + password);
   };
 
 

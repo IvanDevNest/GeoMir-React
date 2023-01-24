@@ -1,9 +1,12 @@
 import React from 'react'
 import { useState } from 'react';
+import { useContext } from "react";
+import { UserContext } from "../userContext";
 
 export default function Register({setCanvi}) {
   let [formulari, setFormulari] = useState({});
   let [error, setError] = useState("");
+  let { authToken, setAuthToken } = useContext(UserContext);
 
 
   const handleChange = (e) => {
@@ -50,6 +53,7 @@ export default function Register({setCanvi}) {
         console.log(resposta);
         if (resposta.success === true) {
           alert(resposta.authToken);
+          setAuthToken(resposta.authToken)
         }
         else {
           setError(resposta.message);
