@@ -12,36 +12,33 @@ export default function Login({ setCanvi }) {
     let [error, setError] = useState("");
 
 
-  const sendLogin = (e) => {
-    e.preventDefault();
-    fetch("https://backend.insjoaquimmir.cat/api/login", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      method: "POST",
-      body: JSON.stringify({ email: email, password: password })
-    })
-      .then((data) => data.json())
-      .then((resposta) => {
-        console.log(resposta);
-        if (resposta.success === true) {
-          setAuthToken(resposta.authToken);
-
-
-        }
-        else {
-          setError(resposta.message)
-        }
-      })
-      .catch((data) => {
-        console.log(data);
-        alert("Catchch");
-      });
-
-  };
-
-
+    const sendLogin = async (e) => {
+      e.preventDefault();
+    
+      // Enviam dades a l'aPI i recollim resultat
+      try {
+        const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          method: "POST",
+          body: JSON.stringify({ email, password })
+        });
+  
+  
+        const resposta = await data.json();
+        if (resposta.success === true)       setAuthToken(resposta.authToken) ;
+        else alert("La resposta no ha triomfat");
+  
+  
+        alert("He enviat les Dades:  " + email + "/" + password);
+      } catch {
+        console.log("Error");
+        alert("catch");
+      }
+    };
+  
 
 
 

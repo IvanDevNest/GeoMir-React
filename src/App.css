@@ -1,3 +1,28 @@
+.menu{
+  background-color: rgb(255, 255, 255);
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+}
+
+
+.click{
+  text-align: center;
+  border: solid black 2px;
+  margin: 3px;
+  border-radius: 5px;
+  font-size: 40px;
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  background-color: grey;
+}
+.orange{
+  background-color: rgb(255, 94, 0);
+}
+.blue{
+  background-color: rgb(88, 88, 238);
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;

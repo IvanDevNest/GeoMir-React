@@ -1,7 +1,8 @@
-import { useContext, useEffect } from "react";
+import React from 'react'
+import { useContext } from "react";
 import { UserContext } from "../userContext";
-import { Link } from 'react-router-dom'
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useState,useEffect } from 'react';
 
 
 export default function Header() {
@@ -10,39 +11,40 @@ export default function Header() {
     let [user, setUser] = useState("");
     let [ roles, setRoles] = useState([]);
 
+
+    // const getUser = async () => {   }
+    const getUser = async ()=> {
+      try {
+        const data = await fetch("https://backend.insjoaquimmir.cat/api/user", {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer '  + authToken, 
+          },
+          method: "GET",
+        });
+        const resposta = await data.json();
+        if (resposta.success === true) {
+          setUser(resposta.user.name);
+          setRoles(resposta.roles);
+  
+        }        
+        else setError(resposta.message);
+      } catch{
+        console.log("Error");
+        alert("Catchch");
+      }; 
+         
+  }
+
 useEffect(()=>{
+  getUser();
+
+},[]);
 
 
     
-    fetch("https://backend.insjoaquimmir.cat/api/user", {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",             'Authorization': 'Bearer '  + authToken,
-
-          },
-          method: "GET",
-            })
-            .then((data) => data.json())
-            .then((resposta) => {
-              console.log(resposta);
-              if (resposta.success === true) {
-
-                    setUser(resposta.user.name)
-                    setRoles(resposta.roles)
-                
-                    
-      
-              }
-              else {
-                setError(resposta.message)
-              }
-            })
-            .catch((data) => {
-              console.log(data);
-              alert("Catchch");
-            });
-        },[]);  
-
+    
     const sendLogout = (e) => {
         e.preventDefault();
         fetch("https://backend.insjoaquimmir.cat/api/logout", {
@@ -82,10 +84,10 @@ useEffect(()=>{
                 Token: <strong>{authToken}</strong>
             </div>
 
-            <div>
-                <Link to="/places">Cosess </Link>
-                <Link to="/posts">Enlloc </Link>
-                <Link to="/about">About </Link>
+            <div className='menu'>
+                <Link className='click' to="/places/1">Afegir + </Link>
+                <Link className='click orange' to="/posts">Grid </Link>
+                <Link className='click blue' to="/about">Llista </Link>
             </div>
             <button
           onClick={(e) => {
