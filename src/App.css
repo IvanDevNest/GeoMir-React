@@ -21,6 +21,20 @@
 }
 .blue{
   background-color: rgb(88, 88, 238);
+  width: 50%;
+}
+.pink{
+  background-color: rgb(255, 64, 96);
+
+}
+.container{
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+.red{
+  background-color: red;
+  width: 50%;
 }
 
 #root {

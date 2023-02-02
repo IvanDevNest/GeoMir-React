@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { UserContext } from "../userContext";
 import { Link } from 'react-router-dom';
 import { useState,useEffect } from 'react';
+import PlaceMenu from "../Places/PlaceMenu"
 
 
 export default function Header() {
@@ -84,11 +85,7 @@ useEffect(()=>{
                 Token: <strong>{authToken}</strong>
             </div>
 
-            <div className='menu'>
-                <Link className='click' to="/places/1">Afegir + </Link>
-                <Link className='click orange' to="/posts">Grid </Link>
-                <Link className='click blue' to="/about">Llista </Link>
-            </div>
+            <PlaceMenu />
             <button
           onClick={(e) => {
             sendLogout(e);

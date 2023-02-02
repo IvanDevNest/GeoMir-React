@@ -10,8 +10,12 @@ import Footer from "./Layout/Footer";
 import Place from "./Places/Place";
 import PlaceAdd from "./Places/PlaceAdd";
 import PlaceEdit from "./Places/PlaceEdit";
+import PlacesGrid from "./Places/PlacesGrid";
 import PlaceGrid from "./Places/PlaceGrid";
-import PlaceList from "./Places/PlaceList";
+
+import PlacesList from "./Places/PlacesList";
+import PlaceMenu from "./Places/PlaceMenu";
+
 
 
 
@@ -40,8 +44,8 @@ function App() {
               <Route path="/places/:id" element={<Place />} />
               <Route path="/places/add" element={<PlaceAdd />} />
               <Route path="/places/edit/:id" element={<PlaceEdit />} />
-              <Route path="/places/grid" element={<PlaceGrid />} />
-              <Route path="/places/list" element={<PlaceList />} />
+              <Route path="/places/grid" element={<PlacesGrid />} />
+              <Route path="/places/list" element={<PlacesList />} />
 
 
 
