@@ -16,6 +16,12 @@ import PlaceGrid from "./Places/PlaceGrid";
 import PlacesList from "./Places/PlacesList";
 import PlaceMenu from "./Places/PlaceMenu";
 
+import PlaceList from "./Places/PlaceList";
+import Post from "./Posts/Post";
+import PostAdd from "./Posts/PostAdd";
+import PostEdit from "./Posts/PostEdit";
+import PostGrid from "./Posts/PostGrid";
+import PostList from "./Posts/PostList";
 
 
 
@@ -49,7 +55,15 @@ function App() {
 
 
 
+              <Route path="/places/grid" element={<PlaceGrid />} />
+              <Route path="/places/list" element={<PlaceList />} />
+              <Route path="/posts" element={<PostList />} />
+              <Route path="/posts/grid" element={<PostGrid />} />
+              <Route path="/posts/add" element={<PostAdd />} />
+              <Route path="/posts/:id" element={<Post />} />
+              <Route path="/posts/edit/:id" element={<PostEdit />} />
               
+             
             </Routes>
             <Footer/>
 
