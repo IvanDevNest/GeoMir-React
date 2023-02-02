@@ -52,11 +52,9 @@ function App() {
               <Route path="/places/edit/:id" element={<PlaceEdit />} />
               <Route path="/places/grid" element={<PlacesGrid />} />
               <Route path="/places/list" element={<PlacesList />} />
-
-
-
               <Route path="/places/grid" element={<PlaceGrid />} />
               <Route path="/places/list" element={<PlaceList />} />
+              
               <Route path="/posts" element={<PostList />} />
               <Route path="/posts/grid" element={<PostGrid />} />
               <Route path="/posts/add" element={<PostAdd />} />
