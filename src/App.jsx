@@ -32,14 +32,14 @@ import PostList from "./Posts/PostList";
 
 function App() {
   let [authToken, setAuthToken] = useState("");
+  let [usuari, setUsuari] = useState("");
+  
 
 
   return (
     <>
-    <UserContext.Provider
-      value={{ authToken, setAuthToken }}
-      // { authToken, setAuthToken } equival a  { authToken: authToken, setAuthToken:setAuthToken}
-    >
+    <UserContext.Provider value= { { usuari, setUsuari,authToken,setAuthToken }}>
+
       
       {authToken ? (
         <>

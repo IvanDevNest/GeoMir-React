@@ -13,6 +13,7 @@ const PlacesList = () => {
     let [places, setPlaces] = useState([]);
     let [error, setError] = useState("");
     let { authToken, setAuthToken } = useContext(UserContext);
+    let { usuari, setUsuari } = useContext(UserContext);
 
 
 
@@ -42,6 +43,7 @@ const PlacesList = () => {
 
     }
 
+
     useEffect(() => {
         getPlaces();
 
@@ -63,9 +65,14 @@ const PlacesList = () => {
                     <th>favorits</th>
 
                 </tr>
+                
                 { places.map((place) => (
 
-                <tr key={place.id}> {<PlaceList place={place}/>} </tr>
+
+                <tr key={place.id}>
+                                        {usuari==place.author.email||place.visibility.name=='public'?
+                                        <PlaceList place={place}/> :<></>}
+                                        </tr>
                     
                 ))}
             </table>

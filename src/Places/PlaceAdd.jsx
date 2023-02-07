@@ -1,16 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useContext } from "react";
 import { UserContext } from "../userContext";
+import { handleChange } from 'react';
 
 
-export default function Login({ setCanvi }) {
+export default function PlaceAdd({ setCanvi }) {
 
 
-  let [email, setEmail] = useState("");
   let { authToken, setAuthToken } = useContext(UserContext);
-  let {formulari, setFormulari} = useContext({})
-  let [password, setPassword] = useState("");
+  let [formulari, setFormulari] = useState({})
   let [error, setError] = useState("");
   let { name, description, upload, latitude, longitude, visibility } = formulari;
   const formData = new FormData();
@@ -20,24 +19,41 @@ export default function Login({ setCanvi }) {
   formData.append("latitude", latitude);
   formData.append("longitude", longitude);
   formData.append("visibility", visibility);
-  navigator.geolocation.getCurrentPosition((pos) => {
+ 
+  useEffect(()=>{
+    navigator.geolocation.getCurrentPosition((pos) => {
 
+      setFormulari({
+  
+  
+        ...formulari,
+        latitude: pos.coords.latitude,
+        longitude: pos.coords.longitude
+  
+      })
+  
+      console.log("Latitude is :", pos.coords.latitude);
+      console.log("Longitude is :", pos.coords.longitude);
+    });
+    
+  
+  },[]);
 
+  const handleChange = (e) => {
+    if (e.target.type && e.target.type==="file")
+  {
     setFormulari({
-
-
       ...formulari,
-      latitude: pos.coords.latitude,
-      longitude: pos.coords.longitude
-
+      [e.target.name] : e.target.files[0] 
     })
+  } else {
+    setFormulari({
+      ...formulari,
+      [e.target.name] : e.target.value
+  })}
+  }
 
-    console.log("Latitude is :", pos.coords.latitude);
-    console.log("Longitude is :", pos.coords.longitude);
-  });
-
-
-  const sendLogin = async (e) => {
+  const SendPlace = async (e) => {
     e.preventDefault();
 
     // Enviam dades a l'aPI i recollim resultat
@@ -53,6 +69,7 @@ export default function Login({ setCanvi }) {
 
 
       const resposta = await data.json();
+      console.log(resposta)
       if (resposta.success === true) setAuthToken(resposta.authToken);
       else alert("La resposta no ha triomfat");
 
@@ -81,7 +98,7 @@ export default function Login({ setCanvi }) {
           <label for="description">Descripcion</label><br></br>
           <input class="form-control" type="text" name="description" value={formulari.description} onChange={handleChange} ></input><br></br>
           <label for="upload">Archivo</label><br></br>
-          <input class="form-control" type="file" name="upload" value={formulari.upload} onChange={handleChange} ></input><br></br>
+          <input class="form-control" type="file" name="upload" value={formulari.file} onChange={handleChange} ></input><br></br>
           <label for="latitud">Latitud</label><br></br>
           <input class="form-control" type="text" name="latitud" value={formulari.latitude} onChange={handleChange} ></input><br></br>
           <label for="longitud">Longitud</label><br></br>
@@ -92,7 +109,7 @@ export default function Login({ setCanvi }) {
 
         <button
           onClick={(e) => {
-            sendLogin(e);
+            SendPlace(e);
           }}
         >
           Add place      </button>

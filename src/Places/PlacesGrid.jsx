@@ -9,6 +9,7 @@ const PlacesGrid = () => {
   let [places, setPlaces] = useState([]);
   let [error, setError] = useState("");
   let { authToken, setAuthToken } = useContext(UserContext);
+  let { usuari, setUsuari } = useContext(UserContext);
 
 
 

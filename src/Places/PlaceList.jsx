@@ -4,6 +4,8 @@ import { useContext } from 'react';
 
 const PlaceList = ({ place }) => {
     let { authToken, setAuthToken } = useContext(UserContext);
+    let { usuari, setUsuari } = useContext(UserContext);
+
 
     return (
         <>
@@ -14,6 +16,10 @@ const PlaceList = ({ place }) => {
             <td>{place.visibility.name}</td>
             <td>{place.author.name}</td>
             <td>{place.favorites_count}</td>
+            <td>👁</td>
+            {usuari==place.author.email ? <>
+                <button>✏️</button> <button>🗑️</button>
+            </>:<></>}
         </>)
 }
 
