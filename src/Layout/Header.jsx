@@ -12,6 +12,8 @@ export default function Header() {
     let [error, setError] = useState("");
     let [user, setUser] = useState("");
     let [ roles, setRoles] = useState([]);
+    let { usuari, setUsuari } = useContext(UserContext);
+
 
 
     // const getUser = async () => {   }
@@ -29,6 +31,7 @@ export default function Header() {
         if (resposta.success === true) {
           setUser(resposta.user.name);
           setRoles(resposta.roles);
+          setUsuari(resposta.user.email)
   
         }        
         else setError(resposta.message);

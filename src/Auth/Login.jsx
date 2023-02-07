@@ -32,7 +32,6 @@ export default function Login({ setCanvi }) {
         else alert("La resposta no ha triomfat");
   
   
-        alert("He enviat les Dades:  " + email + "/" + password);
       } catch {
         console.log("Error");
         alert("catch");
