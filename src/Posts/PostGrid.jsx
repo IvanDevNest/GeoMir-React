@@ -1,7 +1,21 @@
 import React from 'react'
+import { UserContext } from '../userContext';
+import { useContext } from 'react';
 
-export default function PostGrid() {
-    return (
-      <div>Post</div>
-    )
-  }
+const PostGrid = ({post}) => {
+  
+  return (
+    <>
+          <div class="pink container">
+            <div class="red"><img src={"https://backend.insjoaquimmir.cat/storage/" + post.file.filepath} width="400px" height="400px" alt="{place.name}"></img></div>
+            <div class="blue">{post.name}</div>
+            <div class="orange">{post.description}</div>
+
+
+          </div>
+    </>
+
+  )
+}
+
+export default PostGrid

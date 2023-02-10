@@ -20,8 +20,8 @@ import PlaceList from "./Places/PlaceList";
 import Post from "./Posts/Post";
 import PostAdd from "./Posts/PostAdd";
 import PostEdit from "./Posts/PostEdit";
-import PostGrid from "./Posts/PostGrid";
-import PostList from "./Posts/PostList";
+import PostsGrid from "./Posts/PostsGrid";
+import PostsList from "./Posts/PostsList";
 
 
 
@@ -55,8 +55,8 @@ function App() {
               <Route path="/places/grid" element={<PlaceGrid />} />
               <Route path="/places/list" element={<PlaceList />} />
               
-              <Route path="/posts" element={<PostList />} />
-              <Route path="/posts/grid" element={<PostGrid />} />
+              <Route path="/posts/list" element={<PostsList />} />
+              <Route path="/posts/grid" element={<PostsGrid />} />
               <Route path="/posts/add" element={<PostAdd />} />
               <Route path="/posts/:id" element={<Post />} />
               <Route path="/posts/edit/:id" element={<PostEdit />} />

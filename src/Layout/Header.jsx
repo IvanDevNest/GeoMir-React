@@ -3,7 +3,8 @@ import { useContext } from "react";
 import { UserContext } from "../userContext";
 import { Link } from 'react-router-dom';
 import { useState,useEffect } from 'react';
-import PlaceMenu from "../Places/PlaceMenu"
+import PostMenu from "../Posts/PostMenu";
+import PlaceMenu from "../Places/PlaceMenu";
 
 
 export default function Header() {
@@ -89,6 +90,7 @@ useEffect(()=>{
             </div>
 
             <PlaceMenu />
+            <PostMenu />
             <button
           onClick={(e) => {
             sendLogout(e);
