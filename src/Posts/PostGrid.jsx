@@ -7,7 +7,7 @@ const PostGrid = ({post}) => {
   return (
     <>
           <div class="pink container">
-            <div class="red"><img src={"https://backend.insjoaquimmir.cat/storage/" + post.file.filepath} width="400px" height="400px" alt="{place.name}"></img></div>
+            <div class="red"><img src={"https://backend.insjoaquimmir.cat/storage/" + post.file.filepath} width="400px" height="400px" alt="{post.body}"></img></div>
             <div class="blue">{post.body}</div>
             
 
