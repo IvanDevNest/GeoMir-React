@@ -60,8 +60,8 @@ function App() {
               
               <Route path="/posts/list" element={<PostsList />} />
               <Route path="/posts/grid" element={<PostsGrid />} />
-              <Route path="/posts/add" element={<PostAdd />} />
               <Route path="/posts/:id" element={<Post />} />
+              <Route path="/posts/add" element={<PostAdd />} />
               <Route path="/posts/edit/:id" element={<PostEdit />} />
               <Route path="/posts/grid" element={<PostGrid />} />
               <Route path="/posts/list" element={<PostList />} />              
