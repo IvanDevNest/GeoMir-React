@@ -21,7 +21,10 @@ import Post from "./Posts/Post";
 import PostAdd from "./Posts/PostAdd";
 import PostEdit from "./Posts/PostEdit";
 import PostsGrid from "./Posts/PostsGrid";
+import PostGrid from "./Posts/PostGrid";
 import PostsList from "./Posts/PostsList";
+import PostMenu from "./Posts/PostMenu";
+import PostList from "./Posts/PostList";
 
 
 
@@ -60,6 +63,9 @@ function App() {
               <Route path="/posts/add" element={<PostAdd />} />
               <Route path="/posts/:id" element={<Post />} />
               <Route path="/posts/edit/:id" element={<PostEdit />} />
+              <Route path="/posts/grid" element={<PostGrid />} />
+              <Route path="/posts/list" element={<PostList />} />              
+
               
              
             </Routes>
