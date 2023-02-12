@@ -20,7 +20,8 @@ const PlaceList = ({ place }) => {
             <td>{place.favorites_count}</td>
             <button  onClick={(e) => {navigate("/places/" + place.id)}}>👁</button>
             {usuari==place.author.email ? <>
-                <button onClick={(e) => {navigate("/places/edit/" + place.id)}} >✏️</button> <button>🗑️</button>
+                <button onClick={(e) => {navigate("/places/edit/" + place.id)}} >✏️</button>
+
             </>:<></>}
         </>)
 }

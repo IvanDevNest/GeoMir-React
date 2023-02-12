@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 
 
 
-export default function PlaceEdit({ setCanvi }) {
+export default function PlaceEdit() {
 
 
   let { authToken, setAuthToken } = useContext(UserContext);
@@ -51,7 +51,6 @@ export default function PlaceEdit({ setCanvi }) {
       if (resposta.success === true) {
 
         const{data}=resposta
-        setAuthToken(resposta.authToken);
         setFormulari({
           name: data.name,
           description: data.description,
@@ -102,7 +101,6 @@ export default function PlaceEdit({ setCanvi }) {
 
 
       const resposta = await data.json();
-      console.log(resposta)
 
       if (resposta.success === true) setAuthToken(resposta.authToken);
       else alert("La resposta no ha triomfat");
@@ -149,7 +147,7 @@ export default function PlaceEdit({ setCanvi }) {
 
         <button
           onClick={(e) => {
-            SendPlace(e);
+            editPlace(e);
           }}
         >
           Add place      </button>

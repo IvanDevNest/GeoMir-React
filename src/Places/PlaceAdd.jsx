@@ -3,10 +3,13 @@ import { useState } from 'react';
 import { useContext } from "react";
 import { UserContext } from "../userContext";
 import { handleChange } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 
 export default function PlaceAdd({ setCanvi }) {
 
+  let navigate = useNavigate();
 
   let { authToken, setAuthToken } = useContext(UserContext);
   let [formulari, setFormulari] = useState({})
@@ -70,7 +73,8 @@ export default function PlaceAdd({ setCanvi }) {
 
       const resposta = await data.json();
       console.log(resposta)
-      if (resposta.success === true) setAuthToken(resposta.authToken);
+      if (resposta.success === true)       navigate("/places/list")
+      ;
       else alert("La resposta no ha triomfat");
 
 
