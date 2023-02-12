@@ -13,6 +13,8 @@ const PostsList = () => {
     let [posts, setPosts] = useState([]);
     let [error, setError] = useState("");
     let { authToken, setAuthToken } = useContext(UserContext);
+    let { usuari, setUsuari } = useContext(UserContext);
+
 
 
 
@@ -65,9 +67,13 @@ const PostsList = () => {
                 </tr>
                 { posts.map((post) => (
 
-                <tr key={post.id}> {<PostList post={post}/>} </tr>
-                    
-                ))}
+
+<tr key={post.id}>
+                        {usuari==post.author.email||post.visibility.name=='public'?
+                        <PostList post={post}/> :<></>}
+                        </tr>
+    
+))}
             </table>
 
             </div>

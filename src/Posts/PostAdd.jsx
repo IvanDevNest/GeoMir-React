@@ -54,7 +54,7 @@ const PostCreate = () => {
       const resposta = await data.json();
       if (resposta.success === true) {
         console.log("post creado")
-        navigate("/posts/" + resposta.data.id)
+        //navigate("/posts/" + resposta.data.id)
       } else {
         console.log(resposta.message)
         setError(resposta.message);
