@@ -6,11 +6,12 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-export default function PostList({post}) {
+export default function PostList({post , deletePost}) {
     let { authToken, setAuthToken } = useContext(UserContext);
     let { usuari, setUsuari } = useContext(UserContext);
     let navigate = useNavigate();
 
+    
 
     console.log(post);
     return (
@@ -23,7 +24,7 @@ export default function PostList({post}) {
       <td> {post.comments_count} </td>
       <button  onClick={(e) => {navigate("/posts/" + post.id)}}>👁</button>
             {usuari==post.author.email ? <>
-                <button onClick={(e) => {navigate("/posts/edit/" + post.id)}} >✏️</button> <button>🗑️</button>
+                <button onClick={(e) => {navigate("/posts/edit/" + post.id)}} >✏️</button>
             </>:<></>}
 
       </>

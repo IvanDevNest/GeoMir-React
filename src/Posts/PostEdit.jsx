@@ -64,10 +64,9 @@ const PostEdit = () => {
       })
     }
   };
-  let { name, description, upload, latitude, longitude, visibility=1 } = formulari;
+  let { body, upload, latitude, longitude, visibility = 1} = formulari;
   const formData = new FormData;
-  formData.append("name", name);
-  formData.append("description", description);
+  formData.append("body", body);
   formData.append("upload", upload);
   formData.append("latitude", latitude);
   formData.append("longitude", longitude);
@@ -113,12 +112,8 @@ const PostEdit = () => {
         </div >
         <form method="post" className="separar" enctype="multipart/form-data">
           <div className="form-group">
-            <label for="name">Name</label>
-            <input type="text" value={formulari.name} onChange={handleChange} name="name" className="form-control" />
-          </div>
-          <div className="form-group">
-            <label for="description">Description</label>
-            <textarea name="description" value={formulari.description} onChange={handleChange} className="form-control"></textarea>
+            <label for="name">Body</label>
+            <input type="text" value={formulari.body} onChange={handleChange} name="body" className="form-control" />
           </div>
           <div className="form-group">
             <label for="upload">File</label>

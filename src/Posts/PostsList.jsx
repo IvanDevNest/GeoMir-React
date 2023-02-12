@@ -49,11 +49,34 @@ const PostsList = () => {
 
     }, []);
 
+    const deletePost = async (id) => {
+        try {
+          const data = await fetch(("https://backend.insjoaquimmir.cat/api/posts/"+id), {
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': 'Bearer ' + authToken
+            },
+            method: "DELETE",
+          });
+          const resposta = await data.json();
+          if (resposta.success === true) {
+            console.log("post eliminado")
+            setRefresh(!refresh)
+          }
+          else {
+            console.log(resposta.message)
+            setError(resposta.message);
+          }
+        } catch(err) {
+          console.log(err.message);
+          alert("Catchch");
+        };
+      }
 
     return (
         <>
             <div>
-                <h1>Places List</h1>
+                <h1>Posts List</h1>
             <table>
                 <tr>
                     <th>body</th>
