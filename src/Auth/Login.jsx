@@ -2,14 +2,23 @@ import React from 'react'
 import { useState } from 'react';
 import { useContext } from "react";
 import { UserContext } from "../userContext";
+import { useForm } from '../Hooks/useForm';
 
 
 export default function Login({ setCanvi }) {
 
-  let [email, setEmail] = useState("");
   let { authToken, setAuthToken } = useContext(UserContext);
-  let [password, setPassword] = useState("");
-    let [error, setError] = useState("");
+      let [error, setError] = useState("");
+      const { formState, onInputChange } = useForm({
+
+        email: "",
+        
+        password: "",
+        
+        });
+        
+        const {email,password} = formState 
+      
 
 
     const sendLogin = async (e) => {
