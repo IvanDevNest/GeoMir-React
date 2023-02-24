@@ -2,14 +2,22 @@ import React from 'react'
 import { useState } from 'react';
 import { useContext } from "react";
 import { UserContext } from "../userContext";
+import { useForm } from '../hooks/useForm';
 
 
 export default function Login({ setCanvi }) {
 
-  let [email, setEmail] = useState("");
   let { authToken, setAuthToken } = useContext(UserContext);
-  let [password, setPassword] = useState("");
     let [error, setError] = useState("");
+const { formState, onInputChange } = useForm({
+
+email: "",
+
+password: "",
+
+});
+
+const {email,password} = formState
 
 
     const sendLogin = async (e) => {
@@ -51,15 +59,11 @@ export default function Login({ setCanvi }) {
 
           <i class="fa fa-user"></i>
           <div class="form-group ">
-            <input name="email" type="text" class="form-control" placeholder="Email " id="UserName" onChange={(e) => {
-              setEmail(e.target.value);
-            }} />
+            <input name="email" type="text" class="form-control" placeholder="Email " id="UserName" onChange={onInputChange} />
           </div>
 
         <div class="form-group log-status">
-          <input name="password" type="password" class="form-control" placeholder="Password" id="Password" onChange={(e) => {
-            setPassword(e.target.value);
-          }} />
+          <input name="password" type="password" class="form-control" placeholder="Password" id="Password" onChange={onInputChange} />
           <i class="fa fa-lock"></i>
         </div>
 
