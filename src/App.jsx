@@ -36,12 +36,13 @@ import PostList from "./Posts/PostList";
 function App() {
   let [authToken, setAuthToken] = useState("");
   let [usuari, setUsuari] = useState("");
-  
+  let[comentCreado, setComentCreada]=useState(false);
+  let [coments, setComents] = useState([]);
 
 
   return (
     <>
-    <UserContext.Provider value= { { usuari, setUsuari,authToken,setAuthToken }}>
+    <UserContext.Provider value= { { usuari, setUsuari,authToken,setAuthToken, comentCreado,setComentCreada ,coments, setComents }}>
 
       
       {authToken ? (
