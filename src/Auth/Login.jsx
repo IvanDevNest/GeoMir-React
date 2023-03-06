@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useContext } from "react";
 import { UserContext } from "../userContext";
 import { useForm } from '../hooks/useForm';
+import { useLogin } from '../hooks/useLogin';
 
 
 export default function Login({ setCanvi }) {
@@ -12,39 +13,38 @@ export default function Login({ setCanvi }) {
 const { formState, onInputChange } = useForm({
 
 email: "",
-
 password: "",
 
 });
 
 const {email,password} = formState
 
-
-    const sendLogin = async (e) => {
-      e.preventDefault();
+const{doLogin}=useLogin()
+    // const sendLogin = async (e) => {
+    //   e.preventDefault();
     
-      // Enviam dades a l'aPI i recollim resultat
-      try {
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          method: "POST",
-          body: JSON.stringify({ email, password })
-        });
+    //   // Enviam dades a l'aPI i recollim resultat
+    //   try {
+    //     const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {
+    //       headers: {
+    //         Accept: "application/json",
+    //         "Content-Type": "application/json"
+    //       },
+    //       method: "POST",
+    //       body: JSON.stringify({ email, password })
+    //     });
   
   
-        const resposta = await data.json();
-        if (resposta.success === true)       setAuthToken(resposta.authToken) ;
-        else alert("La resposta no ha triomfat");
+    //     const resposta = await data.json();
+    //     if (resposta.success === true)       setAuthToken(resposta.authToken) ;
+    //     else alert("La resposta no ha triomfat");
   
   
-      } catch {
-        console.log("Error");
-        alert("catch");
-      }
-    };
+    //   } catch {
+    //     console.log("Error");
+    //     alert("catch");
+    //   }
+    // };
   
 
 
@@ -67,12 +67,8 @@ const {email,password} = formState
           <i class="fa fa-lock"></i>
         </div>
 
-        <button
-          onClick={(e) => {
-            sendLogin(e);
-          }}
-        >
-          Login      </button>
+        <button onClick={ () => doLogin(formState)}>Login</button>
+        
         {error ? <div>{error}</div> : <></>}
 
         <br></br><button
