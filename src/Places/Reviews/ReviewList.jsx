@@ -1,20 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../../userContext';
-import CommentAdd from './CommentAdd'
-import Comment from './Comment'
+import ReviewAdd from './ReviewAdd'
+import Review from './Review'
 
-const CommentsList = () => {
-  let { authToken, setAuthToken, usuari, setUsuari,comments, setComments,refresh,setRefresh,commentCreado,setCommentCreado } = useContext(UserContext);
+const ReviewList = () => {
+  let { authToken, setAuthToken, usuari, setUsuari,reviews, setReviews,refresh,setRefresh,reviewCreada,setReviewCreada } = useContext(UserContext);
   const { id } = useParams();
   let [error, setError] = useState("");
   let [loading, setLoading] = useState(true);
 
 
-  const getComments = async () => {
+  const getReviews = async () => {
     try {
       console.log(id)
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id + "/comments", {
+      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id + "/reviews", {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -25,15 +25,15 @@ const CommentsList = () => {
       const resposta = await data.json();
       if (resposta.success === true) {
         console.log(resposta)
-        setComments(resposta.data);
+        setReviews(resposta.data);
         console.log(resposta.data)
         console.log(usuari)
 
-        resposta.data.map((comment) => 
-          {comment.user.email==usuari ?
-        setCommentCreado(true)
+        resposta.data.map((review) => 
+          {review.user.email==usuari ?
+        setReviewCreada(true)
         :
-        setCommentCreado(false)
+        setReviewCreada(false)
         })
         setLoading(false)
 
@@ -46,24 +46,24 @@ const CommentsList = () => {
     };
   }
   useEffect(() => {
-    getComments();
+    getReviews();
   }, [refresh]);
 
   return (
     <>
-    {commentCreado ?
+    {reviewCreada ?
     <></>:
-      <CommentAdd />}
+      <ReviewAdd />}
     
-      <div>{comments.length>0?
-       <div class="card">Hay {comments.length} comment</div>
-       : <div class="card">No hay comments</div>
+      <div>{reviews.length>0?
+       <div class="card">Hay {reviews.length} review</div>
+       : <div class="card">No hay reviwes</div>
         }
        
-        {comments.map((comment) => (
-                <div class="card" key={comment.id}>
+        {reviews.map((review) => (
+                <div class="card" key={review.id}>
                   {console.log(id)}
-                  <Comment comment={comment} id={id}/>
+                  <Review review={review} id={id}/>
                 </div>
         ))}
       </div>
@@ -71,4 +71,4 @@ const CommentsList = () => {
   )
 }
 
-export default CommentsList
+export default ReviewList

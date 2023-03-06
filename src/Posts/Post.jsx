@@ -4,7 +4,7 @@ import { UserContext } from "../userContext";
 import { useState,useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-import {CommentsList} from './comments/CommentsList';
+import CommentsList from './comments/CommentsList';
 
 
 const Posts = () => {

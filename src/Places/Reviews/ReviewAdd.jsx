@@ -1,16 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../../userContext';
+import { useNavigate } from "react-router-dom";
 
-const CommentAdd = () => {
-  let { authToken, setAuthToken,usuari, setUsuari ,comments, setComments,refresh,setRefresh} = useContext(UserContext);
+const ReviewAdd = () => {
+  let { authToken, setAuthToken,usuari, setUsuari ,reviews, setReviews,refresh,setRefresh} = useContext(UserContext);
   let [formulari, setFormulari] = useState({});
   const { id } = useParams();
+  let navigate = useNavigate();
   let [error, setError] = useState("");
 
-  let { comment } = formulari;
+  let { review } = formulari;
   const formData = new FormData;
-  formData.append("comment", comment);
+  formData.append("review", review);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -20,11 +22,11 @@ const CommentAdd = () => {
     })
   }
 
-const createComment = async (e) => {
+const createReview = async (e) => {
   e.preventDefault();
   try {
-    console.log("Id del post en comment add:" + id)
-    const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id + "/comments", {
+    console.log("Id del place en review add:" + id)
+    const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id + "/reviews", {
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + authToken
@@ -34,10 +36,10 @@ const createComment = async (e) => {
     });
     const resposta = await data.json();
     if (resposta.success === true) {
-      console.log("comment añadido")
+      console.log("reseña añadida")
       setFormulari({
         ...formulari,
-      comment: "",})
+      review: "",})
       setError("")
       setRefresh(!refresh)  
   }
@@ -52,12 +54,12 @@ const createComment = async (e) => {
 }
 return (
   <div>
-    <label for="comment">Comment</label>
-    <textarea name="comment" value={formulari.comment} onChange={handleChange} className="form-control"></textarea>
+    <label for="review">Review</label>
+    <textarea name="review" value={formulari.review} onChange={handleChange} className="form-control"></textarea>
     
     <button className="btn btn-primary" onClick={(e) => {
-      createComment(e);
-    }}>Add Comment</button>
+      createReview(e);
+    }}>Add Review</button>
    
     {error? (<div>{error}</div>):(<></>) }       
 
@@ -66,4 +68,4 @@ return (
 )
 }
 
-export default CommentAdd
+export default ReviewAdd
