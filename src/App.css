@@ -16,6 +16,9 @@
   color: rgb(0, 0, 0);
   background-color: grey;
 }
+.green{
+  background-color: green;
+}
 .orange{
   background-color: rgb(255, 94, 0);
 }

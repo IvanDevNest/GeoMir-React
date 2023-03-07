@@ -2,25 +2,24 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../../userContext';
 import { useNavigate } from "react-router-dom";
+import { useForm } from '../../hooks/useForm';
 
 const ReviewAdd = () => {
-  let { authToken, setAuthToken,usuari, setUsuari ,reviews, setReviews,refresh,setRefresh} = useContext(UserContext);
+  let { authToken, setAuthToken,usuari, setUsuari ,reviews, setReviews,refresh,setRefresh,} = useContext(UserContext);
   let [formulari, setFormulari] = useState({});
   const { id } = useParams();
   let navigate = useNavigate();
   let [error, setError] = useState("");
-
-  let { review } = formulari;
   const formData = new FormData;
-  formData.append("review", review);
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    setFormulari({
-      ...formulari,
-      [e.target.name]: e.target.value
-    })
-  }
+  const { formState, onInputChange, onResetChange } = useForm({
+
+    review: "",
+    
+    
+    });
+    
+    const {review} = formState
 
 const createReview = async (e) => {
   e.preventDefault();
@@ -29,10 +28,11 @@ const createReview = async (e) => {
     const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id + "/reviews", {
       headers: {
         'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + authToken
       },
       method: "POST",
-      body: formData
+      body: JSON.stringify({review}),
     });
     const resposta = await data.json();
     if (resposta.success === true) {
@@ -41,7 +41,6 @@ const createReview = async (e) => {
         ...formulari,
       review: "",})
       setError("")
-      setRefresh(!refresh)  
   }
     else {
       console.log(resposta.message)
@@ -55,7 +54,7 @@ const createReview = async (e) => {
 return (
   <div>
     <label for="review">Review</label>
-    <textarea name="review" value={formulari.review} onChange={handleChange} className="form-control"></textarea>
+    <textarea name="review" value={review} onChange={onInputChange} className="form-control" required></textarea>
     
     <button className="btn btn-primary" onClick={(e) => {
       createReview(e);

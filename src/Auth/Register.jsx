@@ -2,25 +2,31 @@ import React from 'react'
 import { useState } from 'react';
 import { useContext } from "react";
 import { UserContext } from "../userContext";
+import { useForm } from '../hooks/useForm';
+
 
 export default function Register({setCanvi}) {
   let [formulari, setFormulari] = useState({});
   let [error, setError] = useState("");
   let { authToken, setAuthToken } = useContext(UserContext);
+  const { formState, onInputChange } = useForm({
 
+    name: "",
 
-  const handleChange = (e) => {
-    e.preventDefault();
+    email: "",
+    
+    password: "",
 
-    setFormulari({
-      ...formulari,
-      [e.target.name]: e.target.value
+    password2: "",
+
+    
     });
-  };
+    const {name,email,password,password2  } = formState
+
   const handleRegister = (e) => {
     e.preventDefault();
 
-    let { name, password, password2, email } = formulari;
+    //let { name, password, password2, email } = formState;
     alert(
       "He enviat les Dades:  " +
       name +
@@ -74,17 +80,17 @@ export default function Register({setCanvi}) {
       <div class="login-form">
         <h1>Register</h1>
         <div class="form-group ">
-          <input name="name" type="text" class="form-control" placeholder="Username " id="UserName" onChange={handleChange} />
+          <input name="name" type="text" class="form-control" placeholder="Username " id="UserName" onChange={onInputChange} />
         </div>
         <div class="form-group ">
-          <input name="email" type="text" class="form-control" placeholder="Email " id="Email" onChange={handleChange} />
+          <input name="email" type="text" class="form-control" placeholder="Email " id="Email" onChange={onInputChange} />
         </div>
         <div class="form-group log-status">
-          <input name="password" type="password" class="form-control" placeholder="Password" id="Passwod" onChange={handleChange} />
+          <input name="password" type="password" class="form-control" placeholder="Password" id="Passwod" onChange={onInputChange} />
         </div>
 
         <div class="form-group log-status">
-          <input name="password2" type="password" class="form-control" placeholder="Password" id="Passwod2" onChange={handleChange} />
+          <input name="password2" type="password" class="form-control" placeholder="Password" id="Passwod2" onChange={onInputChange} />
 
         </div>
         <button

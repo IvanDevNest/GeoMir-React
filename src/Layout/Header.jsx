@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useState,useEffect } from 'react';
 import PostMenu from "../Posts/PostMenu";
 import PlaceMenu from "../Places/PlaceMenu";
-
+import { Todos } from '../todos/Todos';
 
 export default function Header() {
     let { authToken, setAuthToken } = useContext(UserContext);
@@ -91,6 +91,7 @@ useEffect(()=>{
 
             <PlaceMenu />
             <PostMenu />
+            <Todos/>
             <button
           onClick={(e) => {
             sendLogout(e);

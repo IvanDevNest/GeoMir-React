@@ -5,79 +5,63 @@ import { UserContext } from "../userContext";
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import PlaceList from './PlaceList';
+import { useFetch } from '../hooks/useFetch';
 
 
 
 
 const PlacesList = () => {
     let [places, setPlaces] = useState([]);
-    let [error, setError] = useState("");
     let { authToken, setAuthToken } = useContext(UserContext);
     let { usuari, setUsuari } = useContext(UserContext);
 
 
 
 
-    const getPlaces = async () => {
-        try {
-            const data = await fetch("https://backend.insjoaquimmir.cat/api/places", {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + authToken,
-                },
-                method: "GET",
-            });
-            const resposta = await data.json();
-            if (resposta.success === true) {
-                setPlaces(resposta.data);
-                console.log(resposta.data
-                )
-
-            }
-            else setError(resposta.message);
-        } catch {
-            console.log("Error");
-            alert("Catchch");
-        };
-
-    }
+    const { data, error, loading, setUrl } = useFetch('https://backend.insjoaquimmir.cat/api/places', {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + authToken
+        },
+        method: "GET",
+      });
+    console.log(data)
 
 
-    useEffect(() => {
-        getPlaces();
 
-    }, []);
+
+
+
 
 
     return (
         <>
-            <div>
+            {loading ? <h1>loading...</h1> :<div>
                 <h1>Places List</h1>
-            <table>
-                <tr>
-                    <th>name</th>
-                    <th>description</th>
-                    <th>latitude</th>
-                    <th>longitude</th>
-                    <th>visibility</th>
-                    <th>author</th>
-                    <th>favorits</th>
+                <table>
+                    <tr>
+                        <th>name</th>
+                        <th>description</th>
+                        <th>latitude</th>
+                        <th>longitude</th>
+                        <th>visibility</th>
+                        <th>author</th>
+                        <th>favorits</th>
 
-                </tr>
-                
-                { places.map((place) => (
+                    </tr>
+
+                    {(data.data).map((place) => (
 
 
-                <tr key={place.id}>
-                                        {usuari==place.author.email||place.visibility.name=='public'?
-                                        <PlaceList place={place}/> :<></>}
-                                        </tr>
-                    
-                ))}
-            </table>
+                        <tr key={place.id}>
+                            {usuari == place.author.email || place.visibility.name == 'public' ?
+                                <PlaceList place={place} /> : <></>}
+                        </tr>
 
-            </div>
+                    ))}
+                </table>
+
+            </div>}
 
         </>
     )
