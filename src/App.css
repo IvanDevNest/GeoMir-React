@@ -39,6 +39,9 @@
   background-color: red;
   width: 50%;
 }
+.ed{
+text-decoration: line-through;
+  }
 
 #root {
   max-width: 1280px;

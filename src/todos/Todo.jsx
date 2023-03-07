@@ -1,26 +1,22 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-export const Todo = ({ todo }) => {
+export const Todo = ({ todo, handleDelete, handleToggleTodo }) => {
   // export const ToDo = ({ todo, handleToggleTodo,handleDeleteTodo}) => {
   //const { todos } = useSelector(state => state.todos)
-  const dispatch = useDispatch();
-
+console.log(todo.done)
   return (
-    <div className="flex mb-4 items-center">
-      <p className="w-full text-grey-darkest">
-        <span className={todo.done ? "line-through" : ""}>
-          {" "}
+    <div>
+      <p className={todo.done ? "ed" : ""}>
+          
           {todo.description}
-        </span>
+
       </p>
       {todo.done ? (
         //   <button  onClick = { ()=> handleToggleTodo(todo.id) } className="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded hover:text-white text-gray-400 border-gray-600 hover:bg-gray-500">
         //   Not Done
         // </button>
         <button
-          onClick={() => dispatch(toggletodo(todo.id))}
-          className="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded hover:text-white text-gray-400 border-gray-600 hover:bg-gray-500"
+          onClick={() => handleToggleTodo(todo.id)}
         >
           Not Done
         </button>
@@ -29,9 +25,8 @@ export const Todo = ({ todo }) => {
         //   Done
         // </button>
         <button
-          onClick={() => dispatch(toggletodo(todo.id))}
-          className="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded hover:text-white text-green-400 border-green-600 hover:bg-green-500"
-        >
+          onClick={() => handleToggleTodo(todo.id)}
+          >
           Done
         </button>
       )}
@@ -41,7 +36,7 @@ export const Todo = ({ todo }) => {
                 </button>  */}
 
       <button
-        onClick={() => dispatch(deltodo(todo.id))}
+        onClick={() => handleDelete(todo.id)}
         className="flex-no-shrink  p-2 ml-2 border-2 rounded  border-red-600  hover:text-white text-red-400 hover:bg-red-500"
       >
         Remove
