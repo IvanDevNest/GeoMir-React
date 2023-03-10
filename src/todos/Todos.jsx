@@ -3,47 +3,54 @@ import { useEffect } from "react";
 import { useReducer } from "react";
 import { TodoAdd } from "./TodoAdd";
 import { Todo } from "./Todo";
-import { todosReducer } from "./todoReducer";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 // Estat inicial del reducer. Buit
-const initialState = [];
-const init = () => {
-  // Si localstorage tornes null tornariem un array buit
-  return JSON.parse(localStorage.getItem("todos")) || [];
-};
+// const initialState = [];
+// const init = () => {
+//    Si localstorage tornes null tornariem un array buit
+//   return JSON.parse(localStorage.getItem("todos")) || [];
+// };
 
 export const Todos = () => {
-  const [todos, dispatchTodos] = useReducer(todosReducer, initialState, init);
+  const { todos } = useSelector(state => state.todos)
 
+  const dispatch = useDispatch();
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-  const handleNewTodo = (todo) => {
-    console.log("Afegeixo");
-    console.log({ todo });
+  // const newTodo = {
 
-    const action = {
-      type: "Add Todo",
-      payload: todo
-    };
-    dispatchTodos(action);
-  };
+  //   id: new Date().getTime(),
+    
+  //   description: description,
+    
+  //   done:false
+    
+  //   }
+    
+  //   onResetForm()
+    
+  //   //handle(newTodo)
+    
+  //   dispatch(addtodo(newTodo))
 
-  const handleDeleteTodo = (id) => {
-    console.log("AQui arribo " + id);
-    dispatchTodos({
-      type: "Del Todo",
-      payload: id
-    });
-  };
+  // const handleDeleteTodo = (id) => {
+  //   console.log("AQui arribo " + id);
+  //   dispatchTodos({
+  //     type: "Del Todo",
+  //     payload: id
+  //   });
+  // };
 
-  const handleToggleTodo = (id) => {
-    dispatchTodos({
-      type: "Toggle Todo",
-      payload: id
-    });
-  };
+  // const handleToggleTodo = (id) => {
+  //   dispatchTodos({
+  //     type: "Toggle Todo",
+  //     payload: id
+  //   });
+  // };
 
   console.log(todos);
 
@@ -51,14 +58,14 @@ export const Todos = () => {
     <>
       <div className="h-100 w-full flex items-center justify-center bg-teal-lightest font-sans">
         <div className="bg-white rounded shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg">
-          <TodoAdd handle={handleNewTodo} />
+          <TodoAdd /*handle={handleNewTodo}*//>
           <div>
             {todos.map((todo) => (
               <Todo
                 key={todo.id}
                 todo={todo}
-                handleDelete={handleDeleteTodo}
-                handleToggleTodo={handleToggleTodo}
+                // handleDelete={handleDeleteTodo}
+                // handleToggleTodo={handleToggleTodo}
               />
             ))}
 
