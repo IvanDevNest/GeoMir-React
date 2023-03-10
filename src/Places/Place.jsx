@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import ReviewList from './Reviews/ReviewList';
 import { useFetch } from '../hooks/useFetch';
 import { placesMarksReducer } from './placesMarksReducer';
-const initialState = [];
+// const initialState = [];
 
 
 
@@ -21,9 +21,9 @@ const Place = () => {
   let { usuari, setUsuari } = useContext(UserContext);
   let navigate = useNavigate();
 
-  const init = () =>{
-    return JSON.parse(localStorage.getItem("marks")) || []
-  }
+  // const init = () =>{
+  //   return JSON.parse(localStorage.getItem("marks")) || []
+  // }
   const [marks, dispatchMark] = useReducer(placesMarksReducer, initialState, init);
 
   useEffect(() => {

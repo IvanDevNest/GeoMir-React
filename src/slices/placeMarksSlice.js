@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
 
-    todos: JSON.parse(localStorage.getItem("todos")) || []
+    marks: JSON.parse(localStorage.getItem("marks")) || []
 
 }
 
