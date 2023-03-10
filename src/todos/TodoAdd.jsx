@@ -1,5 +1,7 @@
 import React from "react";
 import { useForm } from "../hooks/useForm";
+import { useDispatch } from "react-redux";
+import { addtodo } from "../slices/todoSlice";
 
 
 export const TodoAdd = ({handle}) => {
@@ -9,6 +11,8 @@ export const TodoAdd = ({handle}) => {
 
   //const { todos } = useSelector(state => state.todos)
   // console.log(todos)
+  const dispatch = useDispatch();
+
 
   const onFormSubmit = (event) => {
     event.preventDefault();
@@ -20,7 +24,9 @@ export const TodoAdd = ({handle}) => {
       done: false
     };
 
-    handle(newTodo)
+    // handle(newTodo)
+    dispatch(addtodo(newTodo));
+
     console.log("Abans del dispatch");
   };
 

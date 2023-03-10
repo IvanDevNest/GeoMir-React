@@ -6,12 +6,12 @@ import { useReducer } from 'react';
 import { useEffect } from 'react';
 const initialState = [];
 const init = () => {
-  return JSON.parse(localStorage.getItem("marks")) || []
-  console.log(marks)
+  return JSON.parse(localStorage.getItem("marks2")) || []
+  console.log(marks2)
 }
 
 const PostsMarks = () => {
-  const [marks, dispatchMarks] = useReducer(postsMarksReducer, initialState, init);
+  const [marks2, dispatchMarks] = useReducer(postsMarksReducer, initialState, init);
 
   const handleDeleteMark = (id) => {
     dispatchMarks({
@@ -22,7 +22,7 @@ const PostsMarks = () => {
 
     })
   }
-  console.log(marks)
+  console.log(marks2)
 
   return (
     <div>
@@ -34,7 +34,7 @@ const PostsMarks = () => {
 
         </tr>
 
-        {marks.map((mark) => (
+        {marks2.map((mark) => (
           <PostsMark key={mark.id} mark={mark} handleDeleteMark={handleDeleteMark} />
         ))}
       </table>

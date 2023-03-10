@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useReducer } from 'react'
+import { useLocation, useParams } from 'react-router-dom';
 import { useContext } from "react";
 import { UserContext } from "../userContext";
 import { useState,useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import CommentsList from './comments/CommentsList';
+import { postsMarksReducer } from './postsMarksReducer';
+const initialState = [];
+
 
 
 const Posts = () => {
@@ -15,6 +18,21 @@ const Posts = () => {
   let [loading, setLoading] = useState(true);
   let { usuari, setUsuari } = useContext(UserContext);
   let navigate = useNavigate();
+
+  const init = () =>{
+    return JSON.parse(localStorage.getItem("marks2")) || []
+  }
+  const [marks2, dispatchMark] = useReducer(postsMarksReducer, initialState, init);
+  
+  useEffect(() => {
+    localStorage.setItem("marks2", JSON.stringify(marks2))
+  })
+  console.log(marks2)
+
+
+  const { pathname } = useLocation()
+
+
 
   const getPost = async ()=> {
       try {
@@ -70,6 +88,27 @@ const Posts = () => {
     };
   }
 
+ 
+
+  const addMark = () => {
+
+
+    const data = {
+      "id": post.id,
+      "body": post.body,
+      "ruta": pathname
+
+    }
+    const action = {
+      type: "Save Mark",
+      payload: data
+    }
+
+    dispatchMark(action);
+
+
+  }
+
   return(
     <>
       {loading ?
@@ -110,6 +149,9 @@ const Posts = () => {
                 </>
                 : <></>}
             </div>
+            <button onClick={() => {
+                addMark()
+              }}>DESA</button>
             <CommentsList
           id={post.id} comments_count={post.comments_count} />
           </div>
