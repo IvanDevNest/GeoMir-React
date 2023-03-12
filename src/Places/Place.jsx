@@ -9,6 +9,12 @@ import { useNavigate } from 'react-router-dom';
 import ReviewList from './Reviews/ReviewList';
 import { useFetch } from '../hooks/useFetch';
 import { placesMarksReducer } from './placesMarksReducer';
+import { useDispatch} from 'react-redux';
+import { addMark } from '../slices/placeMarksSlice';
+import { useSelector } from 'react-redux';
+import { ismarked } from '../slices/placeMarksSlice';
+
+
 // const initialState = [];
 
 
@@ -24,11 +30,14 @@ const Place = () => {
   // const init = () =>{
   //   return JSON.parse(localStorage.getItem("marks")) || []
   // }
-  const [marks, dispatchMark] = useReducer(placesMarksReducer, initialState, init);
+  // const [marks, dispatchMark] = useReducer(placesMarksReducer, initialState, init);
+  const {marks, isMarked} = useSelector((state) => state.marks);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     localStorage.setItem("marks", JSON.stringify(marks))
-  })
+  },[marks])
+
   console.log(marks)
 
   const { pathname } = useLocation()
@@ -63,8 +72,9 @@ const Place = () => {
   }
   useEffect(() => {
     getPlace();
+    dispatch(ismarked(id))
 
-  }, []);
+  }, [marks]);
   const deletePlace = async (id) => {
     try {
       const data = await fetch(("https://backend.insjoaquimmir.cat/api/places/"+id), {
@@ -88,7 +98,7 @@ const Place = () => {
       alert("Catchch");
     };
   }
-  const addMark = () => {
+  // const addMark = () => {
 
 
     const data = {
@@ -103,10 +113,10 @@ const Place = () => {
       payload: data
     }
 
-    dispatchMark(action);
+    // dispatchMark(action);
 
 
-  }
+  // }
 
 
   return (
@@ -144,9 +154,13 @@ const Place = () => {
                         <button onClick={(e) => {deletePlace(place.id)}}>🗑️</button>
                     </>
                     : <></>} 
-<button onClick={() => {
-                addMark()
-              }}>DESA</button>
+{isMarked ?
+                  <button>DESAT</button>
+                  :
+                  <button onClick={() => {
+                    dispatch(addMark(data))
+                  }}>DESA</button>
+              }
       </>
       }
                 <ReviewList />

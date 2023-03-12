@@ -11,7 +11,7 @@ const LoginRegister = () => {
   
   return (
     <div>
-      {login ? <Login setCanvi={setLogin} /> : <Register setCanvi={setLogin} />}
+      <Login />
     </div>
   );
 }

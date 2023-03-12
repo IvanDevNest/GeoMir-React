@@ -1,7 +1,10 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { delMark } from '../slices/placeMarksSlice'
 
 
-const PlacesMark = ({ mark,handleDeleteMark}) => {
+const PlacesMark = ({ mark }) => {
+  const dispatch = useDispatch();
   return (
 
     <tr> 
@@ -9,7 +12,7 @@ const PlacesMark = ({ mark,handleDeleteMark}) => {
       <td>{mark.description}</td>
       <td><a href={mark.ruta}>{mark.ruta}</a></td>
 
-      <td><button onClick={()=>handleDeleteMark(mark.id)  }>🗑️</button></td>
+      <td><button onClick={() => {dispatch(delMark(mark.id))}}>Borrar</button></td>
     </tr>
 
   )
