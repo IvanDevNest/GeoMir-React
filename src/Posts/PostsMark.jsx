@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { delMark } from '../slices/postMarkSlice'
 
 const PostsMark = ({ mark,handleDeleteMark}) => {
   return (
@@ -8,7 +8,7 @@ const PostsMark = ({ mark,handleDeleteMark}) => {
       <td>{mark.body}</td>
       <td><a href={mark.ruta}>{mark.ruta}</a></td>
 
-      <td><button onClick={()=>handleDeleteMark(mark.id)  }>🗑️</button></td>
+      <td><button onClick={()=>delMark(mark.id)  }>🗑️</button></td>
     </tr>
 
   )

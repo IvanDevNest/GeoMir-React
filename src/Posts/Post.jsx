@@ -1,11 +1,15 @@
 import React, { useReducer } from 'react'
 import { useLocation, useParams } from 'react-router-dom';
 import { useContext } from "react";
+import { useSelector } from 'react-redux';
 import { UserContext } from "../userContext";
 import { useState,useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import CommentsList from './comments/CommentsList';
 import { postsMarksReducer } from './postsMarksReducer';
+import { addMark } from '../slices/postMarkSlice';
+import { useDispatch } from 'react-redux';
+import { ismarked } from '../slices/postMarkSlice';
 const initialState = [];
 
 
@@ -19,11 +23,14 @@ const Posts = () => {
   let { usuari, setUsuari } = useContext(UserContext);
   let navigate = useNavigate();
 
-  const init = () =>{
-    return JSON.parse(localStorage.getItem("marks2")) || []
-  }
-  const [marks2, dispatchMark] = useReducer(postsMarksReducer, initialState, init);
+  // const init = () =>{
+  //   return JSON.parse(localStorage.getItem("marks2")) || []
+  // }
+  // const [marks2, dispatchMark] = useReducer(postsMarksReducer, initialState, init);
   
+  const { marks2, isMarked } = useSelector(state => state.marks2)
+  const dispatch = useDispatch();
+
   useEffect(() => {
     localStorage.setItem("marks2", JSON.stringify(marks2))
   })
@@ -62,7 +69,8 @@ const Posts = () => {
   }
   useEffect(() => {
     getPost();
-  },[]);
+    dispatch(ismarked(id))
+  },[marks2]);
 
   const deletePost = async (id) => {
     try {
@@ -90,7 +98,7 @@ const Posts = () => {
 
  
 
-  const addMark = () => {
+  // const addMark = () => {
 
 
     const data = {
@@ -104,10 +112,10 @@ const Posts = () => {
       payload: data
     }
 
-    dispatchMark(action);
+    // dispatchMark(action);
 
 
-  }
+  // }
 
   return(
     <>
@@ -149,9 +157,13 @@ const Posts = () => {
                 </>
                 : <></>}
             </div>
-            <button onClick={() => {
-                addMark()
-              }}>DESA</button>
+            {isMarked ?
+                  <button>DESAT</button>
+                  :
+                  <button onClick={() => {
+                    dispatch(addMark(data))
+                  }}>DESA</button>
+              }
             <CommentsList
           id={post.id} comments_count={post.comments_count} />
           </div>
