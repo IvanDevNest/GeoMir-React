@@ -4,6 +4,7 @@ import PostsMark from './PostsMark'
 import { postsMarksReducer } from './postsMarksReducer';
 import { useReducer } from 'react';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 const initialState = [];
 const init = () => {
   return JSON.parse(localStorage.getItem("marks2")) || []
@@ -11,18 +12,23 @@ const init = () => {
 }
 
 const PostsMarks = () => {
-  const [marks2, dispatchMarks] = useReducer(postsMarksReducer, initialState, init);
+  const { marks2 } = useSelector(state => state.marks2)  // const [marks2, dispatchMarks] = useReducer(postsMarksReducer, initialState, init);
 
-  const handleDeleteMark = (id) => {
-    dispatchMarks({
+  // const handleDeleteMark = (id) => {
+  //   dispatchMarks({
 
-      type: 'Del Mark',
+  //     type: 'Del Mark',
 
-      payload: id
+  //     payload: id
 
-    })
-  }
+  //   })
+  // }
   console.log(marks2)
+
+useEffect(() => {
+  localStorage.setItem("marks2", JSON.stringify(marks2));
+}, [marks2]);
+
 
   return (
     <div>
@@ -35,7 +41,9 @@ const PostsMarks = () => {
         </tr>
 
         {marks2.map((mark) => (
-          <PostsMark key={mark.id} mark={mark} handleDeleteMark={handleDeleteMark} />
+          // <PostsMark key={mark.id} mark={mark} handleDeleteMark={handleDeleteMark} />
+          <PostsMark key={mark.id} mark={mark}/>
+
         ))}
       </table>
 
