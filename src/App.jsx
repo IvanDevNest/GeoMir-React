@@ -27,6 +27,7 @@ import PostMenu from "./Posts/PostMenu";
 import PostList from "./Posts/PostList";
 import { Todos } from './todos/Todos';
 import PlacesMarks from './Places/PlacesMarks';
+import PostsMarks from './Posts/PostsMarks';
   
 
 
@@ -38,6 +39,9 @@ function App() {
   let [usuari, setUsuari] = useState("");
   let[reviewCreada,setReviewCreada]=useState(false)
   let [reviews, setReviews] = useState([]);
+  let[commentCreado,setCommentCreado]=useState(false)
+  let [comments, setComments] = useState([]);
+  let[refresh,setRefresh]=useState(false)
 
 
   
@@ -45,7 +49,7 @@ function App() {
 
   return (
     <>
-    <UserContext.Provider value= { { usuari, setUsuari,authToken,setAuthToken,reviewCreada,setReviewCreada ,reviews, setReviews }}>
+    <UserContext.Provider value= { { usuari, setUsuari,authToken,setAuthToken,reviewCreada,setReviewCreada ,reviews, setReviews, commentCreado, setCommentCreado, comments, setComments, refresh, setRefresh }}>
 
       
       {authToken ? (
@@ -70,7 +74,8 @@ function App() {
               <Route path="/posts/grid" element={<PostGrid />} />
               <Route path="/posts/list" element={<PostList />} />
               <Route path="/todos" element={<Todos />} />       
-              <Route path="/places/marks" element={<PlacesMarks />} />              
+              <Route path="/places/marks" element={<PlacesMarks />} />   
+              <Route path="/posts/marks" element={<PostsMarks />} />           
        
               
 

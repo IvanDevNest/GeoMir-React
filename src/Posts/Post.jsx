@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useReducer } from 'react'
+import { useLocation, useParams } from 'react-router-dom';
 import { useContext } from "react";
+import { useSelector } from 'react-redux';
 import { UserContext } from "../userContext";
 import { useState,useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import CommentsList from './comments/CommentsList';
+import { postsMarksReducer } from './postsMarksReducer';
+import { addMark } from '../slices/postMarkSlice';
+import { useDispatch } from 'react-redux';
+import { ismarked } from '../slices/postMarkSlice';
+const initialState = [];
+
+
 
 const Posts = () => {
   let { authToken, setAuthToken } = useContext(UserContext);
@@ -13,6 +22,24 @@ const Posts = () => {
   let [loading, setLoading] = useState(true);
   let { usuari, setUsuari } = useContext(UserContext);
   let navigate = useNavigate();
+
+  // const init = () =>{
+  //   return JSON.parse(localStorage.getItem("marks2")) || []
+  // }
+  // const [marks2, dispatchMark] = useReducer(postsMarksReducer, initialState, init);
+  
+  const { marks2, isMarked } = useSelector(state => state.marks2)
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    localStorage.setItem("marks2", JSON.stringify(marks2))
+  })
+  console.log(marks2)
+
+
+  const { pathname } = useLocation()
+
+
 
   const getPost = async ()=> {
       try {
@@ -42,7 +69,8 @@ const Posts = () => {
   }
   useEffect(() => {
     getPost();
-  },[]);
+    dispatch(ismarked(id))
+  },[marks2]);
 
   const deletePost = async (id) => {
     try {
@@ -67,6 +95,27 @@ const Posts = () => {
       alert("Catch");
     };
   }
+
+ 
+
+  // const addMark = () => {
+
+
+    const data = {
+      "id": post.id,
+      "body": post.body,
+      "ruta": pathname
+
+    }
+    const action = {
+      type: "Save Mark",
+      payload: data
+    }
+
+    // dispatchMark(action);
+
+
+  // }
 
   return(
     <>
@@ -108,7 +157,15 @@ const Posts = () => {
                 </>
                 : <></>}
             </div>
-
+            {isMarked ?
+                  <button>DESAT</button>
+                  :
+                  <button onClick={() => {
+                    dispatch(addMark(data))
+                  }}>DESA</button>
+              }
+            <CommentsList
+          id={post.id} comments_count={post.comments_count} />
           </div>
 
       }
