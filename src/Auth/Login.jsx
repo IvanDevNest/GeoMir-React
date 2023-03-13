@@ -2,51 +2,49 @@ import React from 'react'
 import { useState } from 'react';
 import { useContext } from "react";
 import { UserContext } from "../userContext";
-import { useForm } from '../Hooks/useForm';
+import { useForm } from '../hooks/useForm';
+import { useLogin } from '../hooks/useLogin';
 
 
 export default function Login({ setCanvi }) {
 
   let { authToken, setAuthToken } = useContext(UserContext);
-      let [error, setError] = useState("");
-      const { formState, onInputChange } = useForm({
+    let [error, setError] = useState("");
+const { formState, onInputChange } = useForm({
 
-        email: "",
-        
-        password: "",
-        
-        });
-        
-        const {email,password} = formState 
-      
+email: "",
+password: "",
 
+});
 
-    const sendLogin = async (e) => {
-      e.preventDefault();
+const {email,password} = formState
+
+const{doLogin}=useLogin()
+    // const sendLogin = async (e) => {
+    //   e.preventDefault();
     
-      // Enviam dades a l'aPI i recollim resultat
-      try {
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          method: "POST",
-          body: JSON.stringify({ email, password })
-        });
+    //   // Enviam dades a l'aPI i recollim resultat
+    //   try {
+    //     const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {
+    //       headers: {
+    //         Accept: "application/json",
+    //         "Content-Type": "application/json"
+    //       },
+    //       method: "POST",
+    //       body: JSON.stringify({ email, password })
+    //     });
   
   
-        const resposta = await data.json();
-        if (resposta.success === true)       setAuthToken(resposta.authToken) ;
-        else alert("La resposta no ha triomfat");
+    //     const resposta = await data.json();
+    //     if (resposta.success === true)       setAuthToken(resposta.authToken) ;
+    //     else alert("La resposta no ha triomfat");
   
   
-        alert("He enviat les Dades:  " + email + "/" + password);
-      } catch {
-        console.log("Error");
-        alert("catch");
-      }
-    };
+    //   } catch {
+    //     console.log("Error");
+    //     alert("catch");
+    //   }
+    // };
   
 
 
@@ -61,24 +59,16 @@ export default function Login({ setCanvi }) {
 
           <i class="fa fa-user"></i>
           <div class="form-group ">
-            <input name="email" type="text" class="form-control" placeholder="Email " id="UserName" onChange={(e) => {
-              setEmail(e.target.value);
-            }} />
+            <input name="email" type="text" class="form-control" placeholder="Email " id="UserName" onChange={onInputChange} />
           </div>
 
         <div class="form-group log-status">
-          <input name="password" type="password" class="form-control" placeholder="Password" id="Password" onChange={(e) => {
-            setPassword(e.target.value);
-          }} />
+          <input name="password" type="password" class="form-control" placeholder="Password" id="Password" onChange={onInputChange} />
           <i class="fa fa-lock"></i>
         </div>
 
-        <button
-          onClick={(e) => {
-            sendLogin(e);
-          }}
-        >
-          Login      </button>
+        <button onClick={ () => doLogin(formState)}>Login</button>
+        
         {error ? <div>{error}</div> : <></>}
 
         <br></br><button

@@ -3,13 +3,17 @@ import { useContext } from "react";
 import { UserContext } from "../userContext";
 import { Link } from 'react-router-dom';
 import { useState,useEffect } from 'react';
-
+import PostMenu from "../Posts/PostMenu";
+import PlaceMenu from "../Places/PlaceMenu";
+import { Todos } from '../todos/Todos';
 
 export default function Header() {
     let { authToken, setAuthToken } = useContext(UserContext);
     let [error, setError] = useState("");
     let [user, setUser] = useState("");
     let [ roles, setRoles] = useState([]);
+    let { usuari, setUsuari } = useContext(UserContext);
+
 
 
     // const getUser = async () => {   }
@@ -27,6 +31,7 @@ export default function Header() {
         if (resposta.success === true) {
           setUser(resposta.user.name);
           setRoles(resposta.roles);
+          setUsuari(resposta.user.email)
   
         }        
         else setError(resposta.message);
@@ -84,11 +89,9 @@ useEffect(()=>{
                 Token: <strong>{authToken}</strong>
             </div>
 
-            <div className='menu'>
-                <Link className='click' to="/places/1">Afegir + </Link>
-                <Link className='click orange' to="/posts">Grid </Link>
-                <Link className='click blue' to="/about">Llista </Link>
-            </div>
+            <PlaceMenu />
+            <PostMenu />
+            <Todos/>
             <button
           onClick={(e) => {
             sendLogout(e);
