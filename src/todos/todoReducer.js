@@ -5,8 +5,7 @@ export const todoReducer = (initialState, action) => {
   
       case "Del Todo":
         // Retornarà un nou array amb tots els elements menys el de l'id
-        return initialState.filter((todo) => todo.id !== action.payload);
-  x   
+        return initialState.filter((todo) => todo.id !== action.payload);   
       case "Toggle Todo":
         return initialState.map((todo) => {
           if (todo.id === action.payload) {

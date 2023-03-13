@@ -5,24 +5,29 @@ import PlacesMark from './PlacesMark'
 import { placesMarksReducer } from './placesMarksReducer';
 import { useReducer } from 'react';
 import { useEffect } from 'react';
-const initialState = [];
-const init = () => {
-  return JSON.parse(localStorage.getItem("marks")) || []
-  console.log(marks)
-}
+import { useSelector } from 'react-redux';
+// const initialState = [];
+// const init = () => {
+//   return JSON.parse(localStorage.getItem("marks")) || []
+//   console.log(marks)
+// }
 
 const PlacesMarks = () => {
-  const [marks, dispatchMarks] = useReducer(placesMarksReducer, initialState, init);
+  const { marks } = useSelector(state => state.marks)
+  // const [marks, dispatchMarks] = useReducer(placesMarksReducer, initialState, init);
 
-  const handleDeleteMark = (id) => {
-    dispatchMarks({
+  // const handleDeleteMark = (id) => {
+  //   dispatchMarks({
 
-      type: 'Del Mark',
+  //     type: 'Del Mark',
 
-      payload: id
+  //     payload: id
 
-    })
-  }
+  //   })
+  // }
+  useEffect(() => {
+    localStorage.setItem("marks", JSON.stringify(marks));
+  }, [marks]);
   console.log(marks)
 
   return (
@@ -37,7 +42,7 @@ const PlacesMarks = () => {
         </tr>
 
         {marks.map((mark) => (
-          <PlacesMark key={mark.id} mark={mark} handleDeleteMark={handleDeleteMark} />
+          <PlacesMark key={mark.id} mark={mark}/>
         ))}
       </table>
 
