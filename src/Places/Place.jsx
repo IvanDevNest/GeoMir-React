@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import ReviewList from './Reviews/ReviewList';
 import { useFetch } from '../hooks/useFetch';
 import { placesMarksReducer } from './placesMarksReducer';
-import { useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addMark } from '../slices/placeMarksSlice';
 import { useSelector } from 'react-redux';
 import { ismarked } from '../slices/placeMarksSlice';
@@ -31,12 +31,12 @@ const Place = () => {
   //   return JSON.parse(localStorage.getItem("marks")) || []
   // }
   // const [marks, dispatchMark] = useReducer(placesMarksReducer, initialState, init);
-  const {marks, isMarked} = useSelector((state) => state.marks);
+  const { marks, isMarked } = useSelector((state) => state.marks);
   const dispatch = useDispatch();
 
   useEffect(() => {
     localStorage.setItem("marks", JSON.stringify(marks))
-  },[marks])
+  }, [marks])
 
   console.log(marks)
 
@@ -77,7 +77,7 @@ const Place = () => {
   }, [marks]);
   const deletePlace = async (id) => {
     try {
-      const data = await fetch(("https://backend.insjoaquimmir.cat/api/places/"+id), {
+      const data = await fetch(("https://backend.insjoaquimmir.cat/api/places/" + id), {
         headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + authToken
@@ -101,19 +101,19 @@ const Place = () => {
   // const addMark = () => {
 
 
-    const data = {
-      "id": place.id,
-      "name": place.name,
-      "description": place.description,
-      "ruta": pathname
+  const data = {
+    "id": place.id,
+    "name": place.name,
+    "description": place.description,
+    "ruta": pathname
 
-    }
-    const action = {
-      type: "Save Mark",
-      payload: data
-    }
+  }
+  const action = {
+    type: "Save Mark",
+    payload: data
+  }
 
-    // dispatchMark(action);
+  // dispatchMark(action);
 
 
   // }
@@ -124,7 +124,7 @@ const Place = () => {
 
       {isLoading ? "cargando..." : <>
         <table>
-        <img class="img-fluid" src={"https://backend.insjoaquimmir.cat/storage/" + place.file.filepath} title="Image preview" width="300px" />
+          <img class="img-fluid" src={"https://backend.insjoaquimmir.cat/storage/" + place.file.filepath} title="Image preview" width="300px" />
 
           <tr>
             <td>ID</td>
@@ -149,21 +149,21 @@ const Place = () => {
           </tr>
         </table>
         {usuari == place.author.email ?
-                    <>
-                        <button onClick={(e) => {navigate("/places/edit/"+place.id)}}>📝</button> 
-                        <button onClick={(e) => {deletePlace(place.id)}}>🗑️</button>
-                    </>
-                    : <></>} 
-{isMarked ?
-                  <button>DESAT</button>
-                  :
-                  <button onClick={() => {
-                    dispatch(addMark(data))
-                  }}>DESA</button>
-              }
+          <>
+            <button onClick={(e) => { navigate("/places/edit/" + place.id) }}>📝</button>
+            <button onClick={(e) => { deletePlace(place.id) }}>🗑️</button>
+          </>
+          : <></>}
+        {isMarked ?
+          <button>DESAT</button>
+          :
+          <button onClick={() => {
+            dispatch(addMark(data))
+          }}>DESA</button>
+        }
+        <ReviewList id={place.id}/> 
       </>
-      }
-                <ReviewList />
+      }              
 
     </>
   )
