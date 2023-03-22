@@ -4,12 +4,16 @@ import { useContext } from "react";
 import { UserContext } from "../userContext";
 import { handleChange } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { addPlace } from '../slices/places/thunks';
+import { useDispatch } from 'react-redux';
 
 
 
 export default function PlaceAdd({ setCanvi }) {
 
   let navigate = useNavigate();
+  const dispatch = useDispatch();
+
 
   let { authToken, setAuthToken } = useContext(UserContext);
   let [formulari, setFormulari] = useState({})
@@ -111,11 +115,9 @@ export default function PlaceAdd({ setCanvi }) {
           <input class="form-control" type="text" name="visibility" value={formulari.visibility} onChange={handleChange}></input><br></br>
         </form>
 
-        <button
-          onClick={(e) => {
-            SendPlace(e);
-          }}
-        >
+        <button onClick={() => {
+            dispatch(addPlace(authToken,formData))
+          }}>
           Add place      </button>
         {error ? <div>{error}</div> : <></>}
 
