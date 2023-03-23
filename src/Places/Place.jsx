@@ -1,19 +1,10 @@
-import React, { useReducer } from 'react'
-import { useLocation, useParams } from 'react-router-dom';
-import { useContext } from "react";
+import React, { useContext, useEffect, useState } from 'react'
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { UserContext } from "../userContext";
-import { useEffect } from 'react';
-import { useState } from 'react';
-import PlacesGrid from './PlacesGrid';
-import { useNavigate } from 'react-router-dom';
 import ReviewList from './Reviews/ReviewList';
-import { useFetch } from '../hooks/useFetch';
-import { placesMarksReducer } from './placesMarksReducer';
-import { useDispatch } from 'react-redux';
-import { addMark } from '../slices/placeMarksSlice';
-import { useSelector } from 'react-redux';
-import { ismarked } from '../slices/placeMarksSlice';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { addMark, ismarked } from '../slices/placeMarksSlice';
+import { delPlace } from '../slices/places/thunks'; 
 
 // const initialState = [];
 
@@ -75,29 +66,29 @@ const Place = () => {
     dispatch(ismarked(id))
 
   }, [marks]);
-  const deletePlace = async (id) => {
-    try {
-      const data = await fetch(("https://backend.insjoaquimmir.cat/api/places/" + id), {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + authToken
-        },
-        method: "DELETE",
-      });
-      const resposta = await data.json();
-      if (resposta.success === true) {
-        console.log("place eliminado")
-        navigate("/places/list")
-      }
-      else {
-        console.log(resposta.message)
-        setError(resposta.message);
-      }
-    } catch {
-      console.log("Error");
-      alert("Catchch");
-    };
-  }
+  // const deletePlace = async (id) => {
+  //   try {
+  //     const data = await fetch(("https://backend.insjoaquimmir.cat/api/places/" + id), {
+  //       headers: {
+  //         'Accept': 'application/json',
+  //         'Authorization': 'Bearer ' + authToken
+  //       },
+  //       method: "DELETE",
+  //     });
+  //     const resposta = await data.json();
+  //     if (resposta.success === true) {
+  //       console.log("place eliminado")
+  //       navigate("/places/list")
+  //     }
+  //     else {
+  //       console.log(resposta.message)
+  //       setError(resposta.message);
+  //     }
+  //   } catch {
+  //     console.log("Error");
+  //     alert("Catchch");
+  //   };
+  // }
   // const addMark = () => {
 
 
@@ -151,7 +142,7 @@ const Place = () => {
         {usuari == place.author.email ?
           <>
             <button onClick={(e) => { navigate("/places/edit/" + place.id) }}>📝</button>
-            <button onClick={(e) => { deletePlace(place.id) }}>🗑️</button>
+            <button onClick={() => {dispatch(delPlace(place.id,authToken,navigate))}}>🗑️</button>
           </>
           : <></>}
         {isMarked ?
