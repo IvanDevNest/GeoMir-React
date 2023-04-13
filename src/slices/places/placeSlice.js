@@ -1,30 +1,53 @@
-import { setAdd, setError, setReviews, setReviewsCount, startLoadingReviews } from "./reviewSlice";
 
 
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
 
-    reviews: [],
 
     isLoading: false,
 
     error: "",
 
-    formulari: [],
+    places: [],
 
-    reviewCreada: false,
+    place: {
 
+        name: "",
+        
+        description: "",
+        
+        file: { filepath: "" },
+        
+        author: { name: "" },
+        
+        latitude: 0,
+        
+        longitude: 0,
+        
+        visibility:0,
+        
+        },
+        page: 1,
+
+
+        pages: [], 
 
 }
-export const reviewSlice = createSlice({
+export const placeSlice = createSlice({
 
-    name: "review",
+    name: "place",
 
     initialState,
 
     reducers: {
+        setPlaces:(state, action) =>{
+            state.places = action.payload
+            state.isLoading = false
+            console.log("entrado a setPlaces")
 
-        startLoadingReviews: (state) => {
+        },
+
+        setisLoading: (state) => {
 
             //console.log("ABA")
 
@@ -32,9 +55,9 @@ export const reviewSlice = createSlice({
 
         },
 
-        setReviews: (state, action) => {
+        setPlace: (state, action) => {
 
-            state.reviews = action.payload
+            state.place = action.payload
 
             state.isLoading = false
         },
@@ -60,12 +83,22 @@ export const reviewSlice = createSlice({
 
             state.reviewsCount = action.payload
 
-        }
+        },
+        setPage: (state,action) => {
+        
+            state.page = action.payload
+        
+        },
+        setPages: (state,action) => {
+
+            state.pages = action.payload
+            
+        },
 
     }
 
 });
 
-export const { setreviewCreada, startLoadingReviews, setReviews, setAdd, setError, setReviewsCount } = reviewSlice.actions;
+export const { setreviewCreada, setisLoading, setPlace, setPlaces, setAdd, setError, setReviewsCount, setPage, setPages } = placeSlice.actions;
 
-export default reviewSlice.reducer
+export default placeSlice.reducer

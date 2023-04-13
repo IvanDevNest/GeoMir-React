@@ -4,32 +4,39 @@ import { UserContext } from "../userContext";
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import PlaceGrid from './PlaceGrid';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { getPlaces } from '../slices/places/thunks';
 import { useFetch } from '../hooks/useFetch';
+import Paginate from './Paginate';
 
 const PlacesGrid = () => {
-  let [places, setPlaces] = useState([]);
   let { authToken, setAuthToken } = useContext(UserContext);
   let { usuari, setUsuari } = useContext(UserContext);
 
 
 
+    const { places, isLoading, page} = useSelector((state) => state.places);
 
-  const { data, error, loading, setUrl } = useFetch('https://backend.insjoaquimmir.cat/api/places', {
-    headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + authToken
-    },
-    method: "GET",
-  });
+  const dispatch = useDispatch();
+
+
+  useEffect(() => {
+
+  dispatch(getPlaces(authToken, page));
+}, [page]);
+
 
   return (
     <>
-      {loading?<h1>loadig...</h1>:(data.data).map((place) => (
+      {isLoading?<h1>loadig...</h1>:(places).map((place) => (
 
 <div key={place.id}> {<PlaceGrid place={place} />} </div>
 
 ))}
+       <Paginate />
     </>
+    
   )
 }
 
