@@ -3,6 +3,7 @@ import { UserContext } from '../userContext';
 import { useContext } from 'react';
 import PostsList from './PostsList';
 import { useNavigate } from 'react-router-dom';
+import { addPost } from '../slices/posts/thunks';
 
 
 

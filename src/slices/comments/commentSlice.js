@@ -9,7 +9,7 @@ const initialState = {
     commentsCount : 0
   }
 
-  export const reviewSlice = createSlice({
+  export const commentSlice = createSlice({
 
     name: "comment",
     
@@ -29,7 +29,7 @@ const initialState = {
     
     state.comments= action.payload
     
-    state.isLoading=false
+    state.isLoading=false},
     
     setAdd: (state,action) =>
     
@@ -37,13 +37,13 @@ const initialState = {
     
     state.add = action.payload
     
-    };
+    },
     
     setError: (state,action) => {
     
     state.error = action.payload
     
-    };
+    },
     
     setCommentsCount: (state,action) => {
     
@@ -53,7 +53,7 @@ const initialState = {
     
     }
     
-    }});
+    });
     
     export const { startLoadingComments,setComments,setAdd,setError,setCommentsCount } = commentSlice.actions;
     

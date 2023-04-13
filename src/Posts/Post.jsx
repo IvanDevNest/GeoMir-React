@@ -10,6 +10,8 @@ import { postsMarksReducer } from './postsMarksReducer';
 import { addMark } from '../slices/postMarkSlice';
 import { useDispatch } from 'react-redux';
 import { ismarked } from '../slices/postMarkSlice';
+import { delPost } from '../slices/posts/thunks';
+import { getPost } from '../slices/posts/thunks';
 const initialState = [];
 
 
@@ -41,60 +43,60 @@ const Posts = () => {
 
 
 
-  const getPost = async ()=> {
-      try {
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/"+id, {
-          headers: {
-            Accept: "application/json",        
-            "Content-Type": "application/json",
-            'Authorization': 'Bearer '  + authToken, 
-          },
-          method: "GET",
-        });
-        const resposta = await data.json();
-        if (resposta.success === true) {
-          console.log(resposta)
-          setLoading(false);
-          setPost(resposta.data)
-        }        
-        else {
-          console.log(resposta)
-          setError(resposta.message);
-        }
-      } catch (err) {
-        console.log(err.message);
-        alert("Catch");
-      }; 
+  // const getPost = async ()=> {
+  //     try {
+  //       const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/"+id, {
+  //         headers: {
+  //           Accept: "application/json",        
+  //           "Content-Type": "application/json",
+  //           'Authorization': 'Bearer '  + authToken, 
+  //         },
+  //         method: "GET",
+  //       });
+  //       const resposta = await data.json();
+  //       if (resposta.success === true) {
+  //         console.log(resposta)
+  //         setLoading(false);
+  //         setPost(resposta.data)
+  //       }        
+  //       else {
+  //         console.log(resposta)
+  //         setError(resposta.message);
+  //       }
+  //     } catch (err) {
+  //       console.log(err.message);
+  //       alert("Catch");
+  //     }; 
          
-  }
+  // }
   useEffect(() => {
     getPost();
     dispatch(ismarked(id))
   },[marks2]);
 
-  const deletePost = async (id) => {
-    try {
-      const data = await fetch(("https://backend.insjoaquimmir.cat/api/posts/"+id), {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + authToken
-        },
-        method: "DELETE",
-      });
-      const resposta = await data.json();
-      if (resposta.success === true) {
-        console.log("post eliminado")
-        navigate("/posts/list")
-      }
-      else {
-        console.log(resposta.message)
-        setError(resposta.message);
-      }
-    } catch (err){
-      console.log(err.message);
-      alert("Catch");
-    };
-  }
+  // const deletePost = async (id) => {
+  //   try {
+  //     const data = await fetch(("https://backend.insjoaquimmir.cat/api/posts/"+id), {
+  //       headers: {
+  //         'Accept': 'application/json',
+  //         'Authorization': 'Bearer ' + authToken
+  //       },
+  //       method: "DELETE",
+  //     });
+  //     const resposta = await data.json();
+  //     if (resposta.success === true) {
+  //       console.log("post eliminado")
+  //       navigate("/posts/list")
+  //     }
+  //     else {
+  //       console.log(resposta.message)
+  //       setError(resposta.message);
+  //     }
+  //   } catch (err){
+  //     console.log(err.message);
+  //     alert("Catch");
+  //   };
+  // }
 
  
 
@@ -153,7 +155,9 @@ const Posts = () => {
               {usuari == post.author.email ?
                 <>
                   <button onClick={(e) => {navigate("/posts/edit/" + post.id) }}>📝</button>
-                  <button onClick={(e) => {deletePost(post.id)}}>🗑️</button>
+                  <button className="btn btn-primary" onClick={(e) => {
+                    dispatch(delPost(authToken,formData,id));
+                  }}>🗑️</button>
                 </>
                 : <></>}
             </div>

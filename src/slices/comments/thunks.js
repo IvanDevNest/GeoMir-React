@@ -111,3 +111,56 @@ export const delComment = (comment, authToken) => {
         };
         
         };
+
+        export const addComment = (authToken,formData,id) => {
+
+            return async (dispatch, getState) => {
+        
+                const data = await fetch(
+        
+                    "https://backend.insjoaquimmir.cat/api/posts/" +
+        
+                    id +
+        
+                    "/comments" ,
+        
+                    {
+        
+                        headers: {
+        
+                            Accept: "application/json",
+        
+                            Authorization: "Bearer " + authToken,
+        
+                        },
+        
+                        method: "POST",
+                        body:formData
+        
+                    }
+        
+                );
+        
+                const resposta = await data.json();
+                    console.log(resposta)
+                if (resposta.success == true) {
+        
+                    console.log("OK");
+        
+                    dispatch(setAdd(true));
+        
+                    // usuari no l'indiquem i per defecta estarà a ""
+        
+                    dispatch(getComments(0, id, authToken))
+        
+                    // const state = getState()
+        
+                    // dispatch(setReviewsCount(state.reviewsCount - 1));
+        
+                
+            }else{
+                    dispatch(setError(resposta.message))
+                }
+        
+            };
+        };
