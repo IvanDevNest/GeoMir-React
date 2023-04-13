@@ -32,6 +32,8 @@ const initialState = {
 
         pages: [], 
 
+        filter: { description: "", author: ""} 
+
 }
 export const placeSlice = createSlice({
 
@@ -43,6 +45,7 @@ export const placeSlice = createSlice({
         setPlaces:(state, action) =>{
             state.places = action.payload
             state.isLoading = false
+            console.log(state.isLoading)
             console.log("entrado a setPlaces")
 
         },
@@ -94,11 +97,16 @@ export const placeSlice = createSlice({
             state.pages = action.payload
             
         },
+        setFilter: (state,action) => {
+
+            state.filter = action.payload
+            
+        }
 
     }
 
 });
 
-export const { setreviewCreada, setisLoading, setPlace, setPlaces, setAdd, setError, setReviewsCount, setPage, setPages } = placeSlice.actions;
+export const { setreviewCreada, setisLoading, setPlace, setPlaces, setAdd, setError, setReviewsCount, setPage, setPages,setFilter } = placeSlice.actions;
 
 export default placeSlice.reducer
