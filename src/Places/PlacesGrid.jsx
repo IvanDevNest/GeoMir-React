@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { getPlaces } from '../slices/places/thunks';
 import { useFetch } from '../hooks/useFetch';
+import Paginate from './Paginate';
 
 const PlacesGrid = () => {
   let { authToken, setAuthToken } = useContext(UserContext);
@@ -15,15 +16,15 @@ const PlacesGrid = () => {
 
 
 
-  const { places, isLoading} = useSelector((state) => state.places);
+    const { places, isLoading, page} = useSelector((state) => state.places);
 
   const dispatch = useDispatch();
 
 
   useEffect(() => {
 
-  dispatch(getPlaces(authToken));
-}, []);
+  dispatch(getPlaces(authToken, page));
+}, [page]);
 
 
   return (
@@ -33,7 +34,9 @@ const PlacesGrid = () => {
 <div key={place.id}> {<PlaceGrid place={place} />} </div>
 
 ))}
+       <Paginate />
     </>
+    
   )
 }
 

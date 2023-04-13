@@ -27,6 +27,10 @@ const initialState = {
         visibility:0,
         
         },
+        page: 1,
+
+
+        pages: [], 
 
 }
 export const placeSlice = createSlice({
@@ -79,12 +83,22 @@ export const placeSlice = createSlice({
 
             state.reviewsCount = action.payload
 
-        }
+        },
+        setPage: (state,action) => {
+        
+            state.page = action.payload
+        
+        },
+        setPages: (state,action) => {
+
+            state.pages = action.payload
+            
+        },
 
     }
 
 });
 
-export const { setreviewCreada, setisLoading, setPlace, setPlaces, setAdd, setError, setReviewsCount } = placeSlice.actions;
+export const { setreviewCreada, setisLoading, setPlace, setPlaces, setAdd, setError, setReviewsCount, setPage, setPages } = placeSlice.actions;
 
 export default placeSlice.reducer
