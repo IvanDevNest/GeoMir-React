@@ -4,11 +4,18 @@ import { useContext } from "react";
 import { UserContext } from "../userContext";
 import { handleChange } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getPlace } from '../slices/places/thunks';
+import { handleUpdate } from '../slices/places/thunks';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 
 export default function PlaceEdit() {
+  let navigate = useNavigate();
 
+  const dispatch = useDispatch()
 
   let { authToken, setAuthToken } = useContext(UserContext);
   let [formulari, setFormulari] = useState({});
@@ -32,94 +39,68 @@ export default function PlaceEdit() {
   })}
   }
   const { id } = useParams();
-  const getPlace = async () => {
+  const { place } = useSelector((state) => state.places);
+  // const getPlace = async () => {
 
-    // Enviam dades a l'aPI i recollim resultat
-    try {
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + authToken
-        },
-        method: "GET",
-      });
-
-
-      const resposta = await data.json();
-      console.log(resposta)
-
-      if (resposta.success === true) {
-
-        const{data}=resposta
-        setFormulari({
-          name: data.name,
-          description: data.description,
-          upload: "",
-          latitude: data.latitude,
-          longitude: data.longitude,
-          visibility: data.visibility.id
+  //   // Enviam dades a l'aPI i recollim resultat
+  //   try {
+  //     const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
+  //       headers: {
+  //         'Accept': 'application/json',
+  //         'Authorization': 'Bearer ' + authToken
+  //       },
+  //       method: "GET",
+  //     });
 
 
-        })
-        console.log(data)
-        console.log(formulari)
+  //     const resposta = await data.json();
+  //     console.log(resposta)
 
-      }
-      else alert("La resposta no ha triomfat");
+  //     if (resposta.success === true) {
 
-
-    } catch (err) {
-      console.log("Error read");
-      console.log(err);
-      alert("catch");
-    }
-  };
-
-  const editPlace = async (e) => {
-
-    e.preventDefault();
-
-    let { name, description, upload, latitude, longitude, visibility } = formulari;
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("description", description);
-    formData.append("upload", upload);
-    formData.append("latitude", latitude);
-    formData.append("longitude", longitude);
-    formData.append("visibility", visibility);
-    console.log(formData)
-    // Enviam dades a l'aPI i recollim resultat
-    try {
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + authToken
-        },
-        method: "POST",
-        body: formData
-      });
+  //       const{data}=resposta
+  //       setFormulari({
+  //         name: data.name,
+  //         description: data.description,
+  //         upload: "",
+  //         latitude: data.latitude,
+  //         longitude: data.longitude,
+  //         visibility: data.visibility.id
 
 
-      const resposta = await data.json();
+  //       })
+  //       console.log(data)
+  //       console.log(formulari)
 
-      if (resposta.success === true) setAuthToken(resposta.authToken);
-      else alert("La resposta no ha triomfat");
+  //     }
+  //     else alert("La resposta no ha triomfat");
 
 
-    } catch (err) {
-      console.log("Error edit");
-      console.log(err);
-      alert("catch");
-    }
-  };
+  //   } catch (err) {
+  //     console.log("Error read");
+  //     console.log(err);
+  //     alert("catch");
+  //   }
+  // };
+
+
 
 
 
   useEffect((e) => {
-    getPlace(e)
-    editPlace(e);
-
+    dispatch(getPlace(authToken,id));
   }, []);
+
+  useEffect(() => {
+    console.log(place)
+    setFormulari({
+      name: place.name,
+      description: place.description,
+      longitude: place.longitude,
+      latitude: place.latitude,
+      visibility: place.visibility.id
+    })
+  }, [place])
 
 
 
@@ -145,12 +126,10 @@ export default function PlaceEdit() {
           <input class="form-control" type="text" name="visibility" value={formulari.visibility} onChange={handleChange}></input><br></br>
         </form>
 
-        <button
-          onClick={(e) => {
-            editPlace(e);
-          }}
-        >
-          Add place      </button>
+        <button className="btn btn-primary" onClick={(e) => {
+                e.preventDefault(),
+                dispatch(handleUpdate(authToken, id, formulari, navigate));
+              }}>Update</button>
         {error ? <div>{error}</div> : <></>}
 
         <br></br><button

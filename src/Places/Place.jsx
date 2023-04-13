@@ -5,16 +5,14 @@ import ReviewList from './Reviews/ReviewList';
 import { useDispatch, useSelector } from 'react-redux';
 import { addMark, ismarked } from '../slices/placeMarksSlice';
 import { delPlace } from '../slices/places/thunks'; 
-
+import { getPlace } from '../slices/places/thunks';
 // const initialState = [];
 
 
 
 
 const Place = () => {
-  let [isLoading, setLoading] = useState(true)
   let { authToken, setAuthToken } = useContext(UserContext);
-  let [place, setPlace] = useState([]);
   let { usuari, setUsuari } = useContext(UserContext);
   let navigate = useNavigate();
 
@@ -23,6 +21,9 @@ const Place = () => {
   // }
   // const [marks, dispatchMark] = useReducer(placesMarksReducer, initialState, init);
   const { marks, isMarked } = useSelector((state) => state.marks);
+  const { place, isLoading} = useSelector((state) => state.places);
+  console.log(place)
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,35 +35,36 @@ const Place = () => {
   const { pathname } = useLocation()
 
   const { id } = useParams();
-  const getPlace = async () => {
-    try {
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken,
-        },
-        method: "GET",
-      });
-      const resposta = await data.json();
-      console.log(isLoading)
+  // const getPlace = async () => {
+  //   try {
+  //     const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
+  //       headers: {
+  //         Accept: "application/json",
+  //         "Content-Type": "application/json",
+  //         'Authorization': 'Bearer ' + authToken,
+  //       },
+  //       method: "GET",
+  //     });
+  //     const resposta = await data.json();
+  //     console.log(isLoading)
 
-      if (resposta.success === true) {
-        console.log(resposta)
-        setPlace(resposta.data)
-        setLoading(false)
-        console.log(isLoading)
+  //     if (resposta.success === true) {
+  //       console.log(resposta)
+  //       setPlace(resposta.data)
+  //       setLoading(false)
+  //       console.log(isLoading)
 
-      }
-      else setError(resposta.message);
-    } catch {
-      console.log("Error");
-      alert("Catchch");
-    };
+  //     }
+  //     else setError(resposta.message);
+  //   } catch {
+  //     console.log("Error");
+  //     alert("Catchch");
+  //   };
 
-  }
+  // }
+  
   useEffect(() => {
-    getPlace();
+    dispatch(getPlace(authToken,id));
     dispatch(ismarked(id))
 
   }, [marks]);
