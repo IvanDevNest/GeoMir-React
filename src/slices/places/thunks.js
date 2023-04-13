@@ -100,12 +100,10 @@ export const getPlaces = (authToken, page = 0) => {
             method: "GET",
         };
         // const url = "https://backend.insjoaquimmir.cat/api/places"
-        console.log(url)
         const data = await fetch(url, headers);
         const resposta = await data.json();
         if (resposta.success == true) {
             if (page > 0) {
-                console.log("pages")
                 dispatch(setPlaces(resposta.data.collection));
 
                 dispatch(setPages(resposta.data.links));
@@ -117,7 +115,6 @@ export const getPlaces = (authToken, page = 0) => {
                 dispatch(setPlaces(resposta.data));
 
             }
-            dispatch(setisLoading(false));
             // dispatch(setPlaces(resposta.data));
             console.log(resposta.data)
         }

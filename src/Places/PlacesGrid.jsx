@@ -11,12 +11,12 @@ import { useFetch } from '../hooks/useFetch';
 import Paginate from './Paginate';
 
 const PlacesGrid = () => {
-  let { authToken, setAuthToken } = useContext(UserContext);
+  let { authToken, setAuthToken,} = useContext(UserContext);
   let { usuari, setUsuari } = useContext(UserContext);
 
 
 
-    const { places, isLoading, page} = useSelector((state) => state.places);
+    const { places, isLoading, page, filter} = useSelector((state) => state.places);
 
   const dispatch = useDispatch();
 
@@ -24,7 +24,7 @@ const PlacesGrid = () => {
   useEffect(() => {
 
   dispatch(getPlaces(authToken, page));
-}, [page]);
+}, [page,filter]);
 
 
   return (
