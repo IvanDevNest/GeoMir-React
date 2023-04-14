@@ -6,27 +6,30 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import PlaceList from './PlaceList';
 import { useFetch } from '../hooks/useFetch';
-
+import { useDispatch } from 'react-redux';
+import { setPlaces } from '../slices/places/placeSlice';
+import { useSelector } from 'react-redux';
+import { getPlaces } from '../slices/places/thunks';
 
 
 
 const PlacesList = () => {
-    let [places, setPlaces] = useState([]);
+    // let [places, setPlaces] = useState([]);
     let { authToken, setAuthToken } = useContext(UserContext);
     let { usuari, setUsuari } = useContext(UserContext);
+    const { places, isLoading} = useSelector((state) => state.places);
+
+    const dispatch = useDispatch();
 
 
+    useEffect(() => {
+
+    dispatch(getPlaces(authToken));
+}, []);
 
 
-    const { data, error, loading, setUrl } = useFetch('https://backend.insjoaquimmir.cat/api/places', {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + authToken
-        },
-        method: "GET",
-      });
-    console.log(data)
-
+console.log(places)
+console.log("arriba los places")
 
 
 
@@ -36,7 +39,7 @@ const PlacesList = () => {
 
     return (
         <>
-            {loading ? <h1>loading...</h1> :<div>
+            {isLoading ? <h1>loading...</h1> :<div>
                 <h1>Places List</h1>
                 <table>
                     <tr>
@@ -50,7 +53,7 @@ const PlacesList = () => {
 
                     </tr>
 
-                    {(data.data).map((place) => (
+                    {(places).map((place) => (
 
 
                         <tr key={place.id}>

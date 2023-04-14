@@ -4,6 +4,8 @@ import { useContext } from "react";
 import { UserContext } from "../userContext";
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
+import { getPost } from '../slices/posts/thunks';
+import { handleUpdate } from '../slices/posts/thunks';
 
 const PostEdit = () => {
   let navigate = useNavigate();
@@ -14,39 +16,41 @@ const PostEdit = () => {
   let [loading, setLoading] = useState(true);
   let [post, setPost] = useState([])
 
-  
-  const getPost = async () => {
-    try {
-      console.log(id)
-      const data = await fetch(("https://backend.insjoaquimmir.cat/api/posts/" + id), {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken,
-        },
-        method: "GET",
-      });
-      const resposta = await data.json();
-      if (resposta.success === true) {
-        console.log(resposta);
-        setLoading(false);
-        setPost(resposta.data);
-        setFormulari({name:resposta.data.name,
-          description:resposta.data.description,
-          upload:"",
-          latitude:resposta.data.latitude,
-          longitude:resposta.data.longitude,
-          visibility:resposta.data.visibility.id})
-      }
-      else {
-        setError(resposta.message);
-      }
-    } catch (err) {
-      console.log(err.message);
-      alert("Catchch");
-    };
+  const dispatch = useDispatch()
 
-  }
+  
+  // const getPost = async () => {
+  //   try {
+  //     console.log(id)
+  //     const data = await fetch(("https://backend.insjoaquimmir.cat/api/posts/" + id), {
+  //       headers: {
+  //         Accept: "application/json",
+  //         "Content-Type": "application/json",
+  //         'Authorization': 'Bearer ' + authToken,
+  //       },
+  //       method: "GET",
+  //     });
+  //     const resposta = await data.json();
+  //     if (resposta.success === true) {
+  //       console.log(resposta);
+  //       setLoading(false);
+  //       setPost(resposta.data);
+  //       setFormulari({name:resposta.data.name,
+  //         description:resposta.data.description,
+  //         upload:"",
+  //         latitude:resposta.data.latitude,
+  //         longitude:resposta.data.longitude,
+  //         visibility:resposta.data.visibility.id})
+  //     }
+  //     else {
+  //       setError(resposta.message);
+  //     }
+  //   } catch (err) {
+  //     console.log(err.message);
+  //     alert("Catchch");
+  //   };
+
+  // }
   useEffect(() => {
     getPost();
   }, []);
@@ -71,31 +75,31 @@ const PostEdit = () => {
   formData.append("latitude", latitude);
   formData.append("longitude", longitude);
   formData.append("visibility", visibility);
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    try {
-      const data = await fetch(("https://backend.insjoaquimmir.cat/api/posts/"+id), {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + authToken
-        },
-        method: "POST",
-        body: formData
-      });
-      const resposta = await data.json();
-      if (resposta.success === true) {
-        console.log("post actualizado")
-        navigate("/posts/"+resposta.data.id)
-      }
-      else {
-        console.log(resposta.message)
-        setError(resposta.message);
-      }
-    } catch {
-      console.log("Error");
-      alert("Catchch");
-    };
-  }
+  // const handleUpdate = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const data = await fetch(("https://backend.insjoaquimmir.cat/api/posts/"+id), {
+  //       headers: {
+  //         'Accept': 'application/json',
+  //         'Authorization': 'Bearer ' + authToken
+  //       },
+  //       method: "POST",
+  //       body: formData
+  //     });
+  //     const resposta = await data.json();
+  //     if (resposta.success === true) {
+  //       console.log("post actualizado")
+  //       navigate("/posts/"+resposta.data.id)
+  //     }
+  //     else {
+  //       console.log(resposta.message)
+  //       setError(resposta.message);
+  //     }
+  //   } catch {
+  //     console.log("Error");
+  //     alert("Catchch");
+  //   };
+  // }
   
 
   return (
@@ -138,8 +142,9 @@ const PostEdit = () => {
             
           </div>
           <button className="btn btn-primary" onClick={(e) => {
-            handleUpdate(e);
-          }}>Update</button>
+                e.preventDefault(),
+                dispatch(handleUpdate(authToken, id, formulari, navigate));
+              }}>Update</button>
         
           {error? (<div>{error}</div>):(<></>) }        </form>
       </div>

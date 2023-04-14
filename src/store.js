@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { placeMarksReducer } from './slices/placeMarksSlice'
+import placeSlice from './slices/places/placeSlice'
 import { postMarkReducer } from './slices/postMarkSlice'
 import reviewSlice from './slices/reviews/reviewSlice'
 import commentSlice from './slices/comments/commentSlice'
@@ -15,7 +16,7 @@ export const store = configureStore({
         marks2:postMarkReducer,
         reviews: reviewSlice,
         comments: commentSlice,
-        posts: postSlice
-        
+        posts: postSlice,
+        places: placeSlice        
         },
     })

@@ -21,6 +21,8 @@ const initialState = {
 
       state.reviews= action.payload
       state.isLoading=false
+      console.log(action)
+      console.log(state.reviews=action.payload)
      
       },
       setAdd: (state,action) => 
