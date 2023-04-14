@@ -11,8 +11,12 @@ const LoginRegister = () => {
   
   return (
     <div>
-      <Login />
-    </div>
+        {login ? 
+            <Login setLogin={setLogin}/>
+          : 
+            <Register setLogin={setLogin}/>        
+        }
+      </div>
   );
 }
 export default LoginRegister

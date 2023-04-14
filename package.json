@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "echo \"error: no test specified\" && exit 1",
+    "docs": "jsdoc -c jsdoc.json"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
@@ -14,6 +16,7 @@
     "react": "^18.2.0",
     "react-dedux": "^0.4.0-beta.4",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.43.9",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.7.0",
     "react-time-ago": "^7.2.1",

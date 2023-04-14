@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { UserContext } from "../userContext";
 import ReviewList from './Reviews/ReviewList';
@@ -6,110 +6,56 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addMark, ismarked } from '../slices/placeMarksSlice';
 import { delPlace } from '../slices/places/thunks'; 
 import { getPlace } from '../slices/places/thunks';
-// const initialState = [];
 
-
-
-
+/**
+ * Componente que muestra información de un place
+ * @function
+ */
 const Place = () => {
   let { authToken, setAuthToken } = useContext(UserContext);
   let { usuari, setUsuari } = useContext(UserContext);
   let navigate = useNavigate();
 
-  // const init = () =>{
-  //   return JSON.parse(localStorage.getItem("marks")) || []
-  // }
-  // const [marks, dispatchMark] = useReducer(placesMarksReducer, initialState, init);
   const { marks, isMarked } = useSelector((state) => state.marks);
   const { place, isLoading} = useSelector((state) => state.places);
-  console.log(place)
+
+  /**
+   * Almacena los marcadores en el local storage
+   * @function
+   * @param {Object} marks - Lista de marcadores
+   */
+  useEffect(() => {
+    localStorage.setItem("marks", JSON.stringify(marks));
+  }, [marks]);
+
+  const { pathname } = useLocation();
+
+  const { id } = useParams();
 
   const dispatch = useDispatch();
 
+  /**
+   * Obtiene la información del place y verifica si está marcado
+   * @function
+   * @param {string} authToken - Token de autenticación
+   * @param {string} id - Identificador del place
+   */
   useEffect(() => {
-    localStorage.setItem("marks", JSON.stringify(marks))
-  }, [marks])
-
-  console.log(marks)
-
-  const { pathname } = useLocation()
-
-  const { id } = useParams();
-  // const getPlace = async () => {
-  //   try {
-  //     const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json",
-  //         'Authorization': 'Bearer ' + authToken,
-  //       },
-  //       method: "GET",
-  //     });
-  //     const resposta = await data.json();
-  //     console.log(isLoading)
-
-  //     if (resposta.success === true) {
-  //       console.log(resposta)
-  //       setPlace(resposta.data)
-  //       setLoading(false)
-  //       console.log(isLoading)
-
-  //     }
-  //     else setError(resposta.message);
-  //   } catch {
-  //     console.log("Error");
-  //     alert("Catchch");
-  //   };
-
-  // }
-  
-  useEffect(() => {
-    dispatch(getPlace(authToken,id));
-    dispatch(ismarked(id))
-
+    dispatch(getPlace(authToken, id));
+    dispatch(ismarked(id));
   }, [marks]);
-  // const deletePlace = async (id) => {
-  //   try {
-  //     const data = await fetch(("https://backend.insjoaquimmir.cat/api/places/" + id), {
-  //       headers: {
-  //         'Accept': 'application/json',
-  //         'Authorization': 'Bearer ' + authToken
-  //       },
-  //       method: "DELETE",
-  //     });
-  //     const resposta = await data.json();
-  //     if (resposta.success === true) {
-  //       console.log("place eliminado")
-  //       navigate("/places/list")
-  //     }
-  //     else {
-  //       console.log(resposta.message)
-  //       setError(resposta.message);
-  //     }
-  //   } catch {
-  //     console.log("Error");
-  //     alert("Catchch");
-  //   };
-  // }
-  // const addMark = () => {
-
 
   const data = {
     "id": place.id,
     "name": place.name,
     "description": place.description,
     "ruta": pathname
+  };
 
-  }
   const action = {
     type: "Save Mark",
     payload: data
-  }
-
-  // dispatchMark(action);
-
-
-  // }
+  };
 
 
   return (

@@ -2,41 +2,46 @@ import React from 'react'
 import { useState } from 'react';
 import { useContext } from "react";
 import { UserContext } from "../userContext";
-import { useForm } from '../hooks/useForm';
+// import { useForm } from '../hooks/useForm';
+import { useForm } from "react-hook-form";
 
 
-export default function Register({setCanvi}) {
+export default function Register({ setLogin }) {
   let [formulari, setFormulari] = useState({});
   let [error, setError] = useState("");
   let { authToken, setAuthToken } = useContext(UserContext);
-  const { formState, onInputChange } = useForm({
+  const onSubmit = data => handleRegister(data)
+  const { register, handleSubmit, formState: { errors } } = useForm()
+  // const { formState, onInputChange } = useForm({
 
-    name: "",
+  //   name: "",
 
-    email: "",
-    
-    password: "",
+  //   email: "",
 
-    password2: "",
+  //   password: "",
 
-    
-    });
-    const {name,email,password,password2  } = formState
+  //   password2: "",
 
-  const handleRegister = (e) => {
-    e.preventDefault();
 
-    //let { name, password, password2, email } = formState;
-    alert(
-      "He enviat les Dades:  " +
-      name +
-      "/" +
-      email +
-      "/" +
-      password +
-      "/" +
-      password2
-    );
+  //   });
+  //   const {name,email,password,password2  } = formState
+
+  // const handleRegister = (e) => {
+  //   e.preventDefault();
+
+  //   //let { name, password, password2, email } = formState;
+  //   alert(
+  //     "He enviat les Dades:  " +
+  //     name +
+  //     "/" +
+  //     email +
+  //     "/" +
+  //     password +
+  //     "/" +
+  //     password2
+  //   );
+  const handleRegister = async (formState) => {
+    let { name, password, password2, email } = formState;
 
 
     if (password2 !== password) {
@@ -80,31 +85,74 @@ export default function Register({setCanvi}) {
       <div class="login-form">
         <h1>Register</h1>
         <div class="form-group ">
-          <input name="name" type="text" class="form-control" placeholder="Username " id="UserName" onChange={onInputChange} />
+          <input {...register("name", { required: true, maxLength: 20 })}
+            // name="name"
+            type="text" class="form-control" placeholder="Username " id="UserName"
+          //  onChange={onInputChange} 
+          />
         </div>
         <div class="form-group ">
-          <input name="email" type="text" class="form-control" placeholder="Email " id="Email" onChange={onInputChange} />
+          <input {...register("email")}
+            //name="email" 
+            type="text" class="form-control" placeholder="Email " id="Email"
+          // onChange={onInputChange}
+          />
         </div>
         <div class="form-group log-status">
-          <input name="password" type="password" class="form-control" placeholder="Password" id="Passwod" onChange={onInputChange} />
+          <input  {...register("password", {
+
+            required: "Aquest camp és obligatori",
+
+            minLength: {
+
+              value: 8,
+
+              message: "La contrasenya ha de tenir al menys 8 caràcters"
+
+            },
+
+            maxLength: {
+
+              value: 20,
+
+              message: "La contrasenya ha de tenir com a màxim 20 caràcters"
+
+            },
+
+            pattern: {
+
+              value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+
+              message:
+
+                "La contrasenya ha de contenir al menys una minúscula, una majúscula, i un número"
+
+            }
+
+          })}
+            //name="password" type="password" class="form-control" placeholder="Password" id="Passwod"
+            // onChange={onInputChange} 
+            />
+                      {errors.password && <p>{errors.password.message}</p>}
         </div>
 
         <div class="form-group log-status">
-          <input name="password2" type="password" class="form-control" placeholder="Password" id="Passwod2" onChange={onInputChange} />
+          <input {...register("password2")}
+          //name="password2" type="password" class="form-control" placeholder="Password" id="Passwod2"
+          // onChange={onInputChange}
+          />
 
         </div>
         <button
-          onClick={(e) => {
-            handleRegister(e);
-          }}
+          onClick={handleSubmit(onSubmit)}
         >
           Crea la conta       </button>
-          {error ? <div>{error}</div> : <></>}
+        {error ? <div>{error}</div> : <></>}
 
 
         <button
           onClick={() => {
-            setCanvi(true);
+            setLogin(true);
           }}
         >
           Ja estas registrat?

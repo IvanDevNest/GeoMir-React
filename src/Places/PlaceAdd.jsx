@@ -1,3 +1,7 @@
+/**
+
+@import React and its hooks, and other dependencies
+*/
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useContext } from "react";
@@ -6,14 +10,15 @@ import { handleChange } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addPlace } from '../slices/places/thunks';
 import { useDispatch } from 'react-redux';
+/**
 
-
-
+This component allows the user to add a new place
+@param {function} setCanvi - a function that sets a state variable in the parent component
+@returns {JSX.Element} - a form that allows the user to add a new place
+*/
 export default function PlaceAdd({ setCanvi }) {
-
   let navigate = useNavigate();
   const dispatch = useDispatch();
-
 
   let { authToken, setAuthToken } = useContext(UserContext);
   let [formulari, setFormulari] = useState({})
@@ -26,43 +31,53 @@ export default function PlaceAdd({ setCanvi }) {
   formData.append("latitude", latitude);
   formData.append("longitude", longitude);
   formData.append("visibility", visibility);
- 
-  useEffect(()=>{
+
+  /**
+  
+  Use effect hook that gets the user's current position when the component mounts
+  */
+  useEffect(() => {
     navigator.geolocation.getCurrentPosition((pos) => {
 
       setFormulari({
-  
-  
+
         ...formulari,
         latitude: pos.coords.latitude,
         longitude: pos.coords.longitude
-  
+
       })
-  
+
       console.log("Latitude is :", pos.coords.latitude);
       console.log("Longitude is :", pos.coords.longitude);
     });
-    
+
+  }, []);
+
+  /**
   
-  },[]);
-
+  Function that handles changes in the form input fields
+  @param {Event} e - the event object
+  */
   const handleChange = (e) => {
-    if (e.target.type && e.target.type==="file")
-  {
-    setFormulari({
-      ...formulari,
-      [e.target.name] : e.target.files[0] 
-    })
-  } else {
-    setFormulari({
-      ...formulari,
-      [e.target.name] : e.target.value
-  })}
+    if (e.target.type && e.target.type === "file") {
+      setFormulari({
+        ...formulari,
+        [e.target.name]: e.target.files[0]
+      })
+    } else {
+      setFormulari({
+        ...formulari,
+        [e.target.name]: e.target.value
+      })
+    }
   }
-
+  /**
+  
+  Function that sends the form data to the backend when the form is submitted
+  @param {Event} e - the event object
+  */
   const SendPlace = async (e) => {
     e.preventDefault();
-
     // Enviam dades a l'aPI i recollim resultat
     try {
       const data = await fetch("https://backend.insjoaquimmir.cat/api/places", {
@@ -77,8 +92,8 @@ export default function PlaceAdd({ setCanvi }) {
 
       const resposta = await data.json();
       console.log(resposta)
-      if (resposta.success === true)       navigate("/places/list")
-      ;
+      if (resposta.success === true) navigate("/places/list")
+        ;
       else alert("La resposta no ha triomfat");
 
 
@@ -87,9 +102,6 @@ export default function PlaceAdd({ setCanvi }) {
       alert("catch");
     }
   };
-
-
-
 
 
 
@@ -116,8 +128,8 @@ export default function PlaceAdd({ setCanvi }) {
         </form>
 
         <button onClick={() => {
-            dispatch(addPlace(authToken,formData))
-          }}>
+          dispatch(addPlace(authToken, formData))
+        }}>
           Add place      </button>
         {error ? <div>{error}</div> : <></>}
 
