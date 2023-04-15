@@ -1,11 +1,10 @@
 import { useState } from "react";
 export const useForm = (initialForm={}) => {
     let [formState, setFormState] = useState(initialForm);
-    const onInputChange = (e) => {
+    const onInputChange = ({ target }) => {
     // amb { target } desestructurem e
-    // enlloc d'esc      riure e.target , escriurem target
+    // enlloc d'escriure e.target , escriurem target
     // Desestructurem ara target
-    const { target } = e
     const { name, value } = target;
     setFormState({
     ...formState,
@@ -18,8 +17,5 @@ export const useForm = (initialForm={}) => {
     // ……………………
     // Podem afegir més mètodes
     // I s’hauran de retornar a continuació
-    const OnResetForm = () => {
-        setFormState(initialForm)
-    };
-    return { ...formState, formState,onInputChange,OnResetForm };
+    return { ...formState, formState,onInputChange };
     };

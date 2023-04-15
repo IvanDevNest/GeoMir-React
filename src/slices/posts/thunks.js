@@ -1,9 +1,9 @@
-import { setisSaving, setisLoading, setError, setPost, setLike, setPosts,setPages,setPage } from "./postSlice"
+import { setisLoading, setError, setPost, setLike, setPosts,setPages,setPage } from "./postSlice"
 
 export const addPost = (formData, authToken, navigate) => {
 
     return async (dispatch, getState) => {
-        dispatch(setisSaving(true))
+        dispatch(setisLoading(true))
 
         // dispatch(startLoadingComments());
         const headers = {
@@ -23,7 +23,7 @@ export const addPost = (formData, authToken, navigate) => {
 
         if (resposta.success == true) {
             console.log("post creado: " + resposta.data)
-            dispatch(setisSaving(false))
+            dispatch(setisLoading(false))
 
             // dispatch(setPosts(resposta.data));
             navigate("/posts/" + resposta.data.id)

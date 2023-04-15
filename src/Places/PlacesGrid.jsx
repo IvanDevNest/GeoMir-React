@@ -7,7 +7,6 @@ import PlaceGrid from './PlaceGrid';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { getPlaces } from '../slices/places/thunks';
-import { useFetch } from '../hooks/useFetch';
 import Paginate from './Paginate';
 
 const PlacesGrid = () => {

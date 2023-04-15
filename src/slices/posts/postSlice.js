@@ -3,16 +3,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
 
-    posts: [],
-
     isLoading: false,
 
     error: "",
 
-    formulari: [],
+    posts: [],
 
-    postCreada: false,
+    post: {
+        
+        body: "",
+        
+        file: { filepath: "" },
+        
+        author: { name: "" },
+        
+        latitude: 0,
+        
+        longitude: 0,
+        
+        visibility:0,
+        
+        },
+        page: 1,
 
+        pages: [], 
 
 }
 export const postSlice = createSlice({
@@ -22,8 +36,14 @@ export const postSlice = createSlice({
     initialState,
 
     reducers: {
+        setPosts:(state, action) =>{
+            state.posts = action.payload
+            state.isLoading = false
+            console.log("entrado a setPosts")
 
-        startLoadingPosts: (state) => {
+        },
+
+        setisLoading: (state) => {
 
             //console.log("ABA")
 
@@ -31,16 +51,16 @@ export const postSlice = createSlice({
 
         },
 
-        setPosts: (state, action) => {
+        setPost: (state, action) => {
 
-            state.posts = action.payload
+            state.place = action.payload
 
             state.isLoading = false
         },
 
-        setpostCreada: (state, action) => {
+        setcommentCreada: (state, action) => {
 
-            state.postCreada = action.payload
+            state.commentCreada = action.payload
 
         },
 
@@ -55,16 +75,26 @@ export const postSlice = createSlice({
         // state.formulari = action.payload
 
         // },
-        setPostsCount: (state, action) => {
+        setCommentsCount: (state, action) => {
 
-            state.postsCount = action.payload
+            state.commentsCount = action.payload
 
-        }
+        },
+        setPage: (state,action) => {
+        
+            state.page = action.payload
+        
+        },
+        setPages: (state,action) => {
+
+            state.pages = action.payload
+            
+        },
 
     }
 
 });
 
-export const { setpostCreada, startLoadingPosts, setPosts, setAdd, setError, setPostsCount } = postSlice.actions;
+export const { setcommentCreada, setisLoading, setPost, setPosts, setAdd, setError, setCommentsCount, setPage, setPages } = postSlice.actions;
 
 export default postSlice.reducer

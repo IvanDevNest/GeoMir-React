@@ -5,9 +5,7 @@ import { UserContext } from "../userContext";
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import PlaceList from './PlaceList';
-import { useFetch } from '../hooks/useFetch';
 import { useDispatch } from 'react-redux';
-import { setPlaces } from '../slices/places/placeSlice';
 import { useSelector } from 'react-redux';
 import { getPlaces } from '../slices/places/thunks';
 
