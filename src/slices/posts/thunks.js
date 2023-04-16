@@ -20,6 +20,7 @@ export const addPost = (formData, authToken, navigate) => {
         const data = await fetch(url, headers);
 
         const resposta = await data.json();
+        console.log("hola");
 
         if (resposta.success == true) {
             console.log("post creado: " + resposta.data)
@@ -53,7 +54,6 @@ export const getPost = (authToken, id) => {
         const data = await fetch(url, headers);
         const resposta = await data.json();
         if (resposta.success == true) {
-            dispatch(setisLoading(false));
             dispatch(setPost(resposta.data));
             console.log(resposta.data)
         }
@@ -193,32 +193,47 @@ export const handleUpdate = (authToken, id, formulari, navigate) => {
 
     };
 };
-export const getPosts = (authToken,page=0) => {
-    return async (dispatch, getState) => {
+export const getPosts = (authToken, page = 0) => {
+    return async (dispatch,getState)=>{
+        let filter = getState().posts.filter;
+        console.log("Entrado a getPosts")
+        console.log(filter)
         dispatch(setisLoading(true));
-        const url =
+        let url = page > 0
+        ? "https://backend.insjoaquimmir.cat/api/posts?paginate=1&page=" + page
+        : "https://backend.insjoaquimmir.cat/api/posts";
+        let simbolo= page > 0 ? "&" : "?";
+        let body = filter.body != "" ? "body="+filter.body : "";
+        let author = filter.author != "" ? "author="+filter.author : "";
+        if (body != "" && author != ""){
+            url = url+simbolo+body+"&"+author;
+        }else if (author != ""){
+            url = url+simbolo+author;
+        }else if (body != "" ){
+            url = url+simbolo+body;
+        }
 
-            page > 0
-
-                ? "https://backend.insjoaquimmir.cat/api/posts?paginate=1&page=" + page
-
-                : "https://backend.insjoaquimmir.cat/api/posts";
         const headers = {
             headers: {
-                Accept: "application/json",
-                Authorization: "Bearer " + authToken,
-            },
+                      Accept: "application/json",
+                      "Content-Type": "application/json",
+                      'Authorization': 'Bearer ' + authToken,
+                    },
             method: "GET",
         };
-        // const url = "https://backend.insjoaquimmir.cat/api/posts"
-        const data = await fetch(url, headers);
-        const resposta = await data.json();
-        if (resposta.success == true) {
+        
+        const data = await fetch(url,  headers);
+        console.log(data)
+        console.log("data respuesta fetch arriba")
+
+          const resposta = await data.json();
+          
+          if (resposta.success == true) {
             if (page > 0) {
+
                 dispatch(setPosts(resposta.data.collection));
                 
                 dispatch(setPages(resposta.data.links));
-                
                 console.log(resposta.data.links);
                 
                 } else {
@@ -226,12 +241,12 @@ export const getPosts = (authToken,page=0) => {
                 dispatch(setPosts(resposta.data));
                 
                 }
-            dispatch(setisLoading(false));
-            // dispatch(setPosts(resposta.data));
-            console.log(resposta.data)
         }
         else {
+            console.log(resposta.message)
             dispatch(setError(resposta.message));
         }
-    };
-}   
+
+    }
+}
+

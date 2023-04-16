@@ -42,14 +42,14 @@ function App() {
   let[commentCreado,setCommentCreado]=useState(false)
   let [comments, setComments] = useState([]);
   let[refresh,setRefresh]=useState(false)
-
+  let [usuariId, setUsuariId] = useState("");
 
   
 
 
   return (
     <>
-    <UserContext.Provider value= { { usuari, setUsuari,authToken,setAuthToken,reviewCreada,setReviewCreada ,reviews, setReviews, commentCreado, setCommentCreado, comments, setComments, refresh, setRefresh }}>
+    <UserContext.Provider value= { { usuari, setUsuari,authToken,setAuthToken,reviewCreada,setReviewCreada ,reviews, setReviews, commentCreado, setCommentCreado, comments, setComments, refresh, setRefresh, usuariId,setUsuariId }}>
 
       
       {authToken ? (

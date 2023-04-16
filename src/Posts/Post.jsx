@@ -10,21 +10,21 @@ import { postsMarksReducer } from './postsMarksReducer';
 import { addMark } from '../slices/postMarkSlice';
 import { useDispatch } from 'react-redux';
 import { ismarked } from '../slices/postMarkSlice';
-import { delPost } from '../slices/posts/thunks';
-import { getPost } from '../slices/posts/thunks';
+import { getPost, delPost, darLike, eliminarLike, comprovarLike } from "../slices/posts/thunks";
 const initialState = [];
 
 
 
 const Posts = () => {
   let { authToken, setAuthToken } = useContext(UserContext);
-  let [post, setPost] = useState([])
-  let [error, setError] = useState("");
+  // let [post, setPost] = useState([])
+  // let [error, setError] = useState("");
   const { id } = useParams();
-  let [loading, setLoading] = useState(true);
+  // let [loading, setLoading] = useState(true);
   let { usuari, setUsuari } = useContext(UserContext);
   let navigate = useNavigate();
 
+  const { post, page = 0, isLoading = true, error = "", like } = useSelector((state) => state.posts);
   // const init = () =>{
   //   return JSON.parse(localStorage.getItem("marks2")) || []
   // }
@@ -70,7 +70,15 @@ const Posts = () => {
          
   // }
   useEffect(() => {
-    getPost();
+    dispatch(getPost(authToken, id));
+  }, [like]);
+
+  useEffect(() => {
+    dispatch(comprovarLike(authToken, id));
+  }, []);
+
+  useEffect(() => {
+    
     dispatch(ismarked(id))
   },[marks2]);
 
@@ -121,7 +129,7 @@ const Posts = () => {
 
   return(
     <>
-      {loading ?
+      {isLoading ?
         "cargando..."
         :
           <div class="card">
@@ -156,7 +164,7 @@ const Posts = () => {
                 <>
                   <button onClick={(e) => {navigate("/posts/edit/" + post.id) }}>📝</button>
                   <button className="btn btn-primary" onClick={(e) => {
-                    dispatch(delPost(authToken,formData,id));
+                    dispatch(delPost(authToken,navigate,id));
                   }}>🗑️</button>
                 </>
                 : <></>}

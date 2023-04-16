@@ -2,10 +2,12 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../../userContext';
 import { useNavigate } from "react-router-dom";
-import { useForm } from '../../hooks/useForm';
+// import { useForm } from '../../hooks/useForm';
 import { useDispatch } from 'react-redux';
 import { addComment } from '../../slices/comments/thunks';
 import { useSelector } from 'react-redux';
+import { useForm } from "react-hook-form";
+
 
 const CommentAdd = () => {
  
@@ -15,21 +17,22 @@ const CommentAdd = () => {
 
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const { comments = [], page = 0, isLoading = true, setAdd = false, error = "", commentsCount = 0 } = useSelector((state) => state.comments);
+  // const { comments = [], page = 0, isLoading = true, setAdd = false, error = "", commentsCount = 0 } = useSelector((state) => state.comments);
 
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const onSubmit = data => dispatch(addComment(authToken,data,id));
 
+  // const { formState, onInputChange, onResetChange } = useForm({
 
-  const { formState, onInputChange, onResetChange } = useForm({
-
-    comment: "",
+  //   comment: "",
     
     
-    });
+  //   });
     
-    const {comment} = formState
-    const formData = new FormData;
+  //   const {comment} = formState
+    // const formData = new FormData;
 
-    formData.append("comment", comment);
+    // formData.append("comment", comment);
 // const CommentAdd = () => {
 //   let { authToken, setAuthToken,usuari, setUsuari ,comments, setComments,refresh,setRefresh} = useContext(UserContext);
 //   let [formulari, setFormulari] = useState({});
@@ -83,13 +86,26 @@ const CommentAdd = () => {
 return (
   <div>
   <label for="comment">Comment</label>
-  <textarea name="comment" value={comment} onChange={onInputChange} className="form-control" required></textarea>
+  <textarea className="form-control" {...register("comment", {
+                    required: "Este campo es obligatorio",
+                    minLength: {
+                      value: 20,
+                      message: "El comentario tiene que tener mínimo 20 caracteres y tres palabras"
+                    },
+                    maxLength: {
+                      value: 200,
+                      message: "El comentario tiene que tener máximo 200 caracteres"
+                    },
+                    pattern: {
+                      value: /^(?=(\b\w+\b\s?){3,})(?!\s).+$/,
+                      message: "El comentario tiene que contener mínimo 3 palabras" 
+                    }})} ></textarea>
   
-  <button className="btn btn-primary" onClick={(e) => {
-    dispatch(addComment(authToken,formData,id));
-  }}>Add Comment</button>
+  <button onClick={handleSubmit(onSubmit)}
+ className="btn btn-primary" 
+  >Add Comment</button>
  
-  {error? (<div>{error}</div>):(<></>) }       
+  {errors.comment? (<div>{errors.comment.message}</div>):(<></>) }       
 
   
 </div>

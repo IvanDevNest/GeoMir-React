@@ -2,6 +2,7 @@ import React from 'react'
 import { UserContext } from '../userContext';
 import { useContext } from 'react';
 
+
 const PostGrid = ({post}) => {
   
   return (

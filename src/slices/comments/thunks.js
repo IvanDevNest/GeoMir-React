@@ -112,8 +112,10 @@ export const delComment = (comment, authToken) => {
         
         };
 
-        export const addComment = (authToken,formData,id) => {
+        export const addComment = (authToken,data,id) => {
+            let comment = data.comment;
 
+            console.log(comment)
             return async (dispatch, getState) => {
         
                 const data = await fetch(
@@ -129,13 +131,13 @@ export const delComment = (comment, authToken) => {
                         headers: {
         
                             Accept: "application/json",
-        
+                            "Content-Type": "application/json",
                             Authorization: "Bearer " + authToken,
         
                         },
         
                         method: "POST",
-                        body:formData
+                        body: JSON.stringify({comment})
         
                     }
         
