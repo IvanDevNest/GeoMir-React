@@ -20,7 +20,6 @@ export const addPost = (formData, authToken, navigate) => {
         const data = await fetch(url, headers);
 
         const resposta = await data.json();
-        console.log("hola");
 
         if (resposta.success == true) {
             console.log("post creado: " + resposta.data)
