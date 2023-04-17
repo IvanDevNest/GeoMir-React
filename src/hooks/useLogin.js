@@ -5,7 +5,7 @@ import { UserContext } from "../userContext";
 
 export const useLogin = () => {
     const [error, setError] = useState("");
-    let { setAuthToken } = useContext(UserContext);
+    let { setAuthToken,setUsuariId } = useContext(UserContext);
     // localStorage = window.localStorage;
 
 
@@ -25,8 +25,11 @@ export const useLogin = () => {
                 });
                 const resposta =  await data.json();
                 console.log(resposta)
+
                 if (resposta.success) {
                     setAuthToken(localAuthToken)
+                    console.log(resposta.user.id)
+                    setUsuariId(resposta.user.id)
                 } else {
                     console.log("INVALID local storage auth token")
                     localStorage.removeItem("authToken")
@@ -54,6 +57,7 @@ export const useLogin = () => {
                 console.log(resposta)
                 setAuthToken(resposta.authToken);
                 localStorage.setItem("authToken",resposta.authToken)
+                checkAuthToken();
             }
             else setError(resposta.message);
         } catch(e) {
