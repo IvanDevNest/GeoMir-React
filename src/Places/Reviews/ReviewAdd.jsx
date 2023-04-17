@@ -2,36 +2,34 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../../userContext';
 import { useNavigate } from "react-router-dom";
-import { useForm } from '../../hooks/useForm';
 import { useDispatch } from 'react-redux';
 import { addReview } from '../../slices/reviews/thunks';
+
+// import { useForm } from '../../hooks/useForm';
+import { useForm } from "react-hook-form";
 import { useSelector } from 'react-redux';
 
 const ReviewAdd = () => {
   // let { authToken, setAuthToken,usuari, setUsuari ,reviews, setReviews,refresh,setRefresh,} = useContext(UserContext);
-  let [formulari, setFormulari] = useState({});
-  const { id } = useParams();
-  let { authToken, setAuthToken,usuari, setUsuari} = useContext(UserContext);
-
-  let navigate = useNavigate();
+  let { authToken, setAuthToken, usuari, setUsuari } = useContext(UserContext); 
+  // let [formulari, setFormulari] = useState({});
   const dispatch = useDispatch();
-  const { reviews = [], page = 0, isLoading = true, setAdd = false, error = "", reviewsCount = 0 } = useSelector((state) => state.reviews);
+  const { id } = useParams();
+  const { register, handleSubmit, reset,formState: { errors } } = useForm();
+  const { reviews = [], page = 0, isLoading = true, reviewCreada = false, error = "", reviewsCount = 0 } = useSelector((state) => state.reviews);
+  // let navigate = useNavigate();
+  // let [error, setError] = useState("");
+  // const formData = new FormData;
 
+  // const { formState, onInputChange, onResetChange } = useForm({
 
-
-  const { formState, onInputChange, onResetChange } = useForm({
-
-    review: "",
+  //   review: "",
     
     
-    });
+  //   });
     
-    const {review} = formState
-    const formData = new FormData;
-
-    formData.append("review", review);
-
-
+  //   const {review} = formState
+  const onSubmit = data => dispatch(addReview(authToken, data, id));
 // const createReview = async (e) => {
 //   e.preventDefault();
 //   try {
@@ -64,13 +62,44 @@ const ReviewAdd = () => {
 // }
 return (
   <div>
-    <label for="review">Review</label>
-    <textarea name="review" value={review} onChange={onInputChange} className="form-control" required></textarea>
+    <label for="review">Reviews</label>
+    <textarea {...register("review", {
+          required: "Aquest camp és obligatori",
+          minLength: {
+
+            value: 20,
+
+            message: "La review ha de tenir al menys 20 caràcters"
+
+          },
+
+          maxLength: {
+
+            value: 200,
+
+            message: "La review pot tenir com a màxim 200 caràcters"
+
+          },
+
+          pattern: {
+
+            value: /^\S+(?:\s+\S+){2,}$/,
+
+            message:
+
+              "Has d'escriure minim tres paraules"
+
+          }
+        
+        })}
+    //name="review" value={review} onChange={onInputChange} 
+    className="form-control" 
+    //required
+    ></textarea>
+            {errors.review && <p>{errors.review.message}</p>}
     
-    <button className="btn btn-primary" onClick={(e) => {
-      dispatch(addReview(authToken,formData,id));
-    }}>Add Review</button>
-   
+    <button className="btn btn-primary" onClick={handleSubmit(onSubmit)}>Add Review</button>
+        
     {error? (<div>{error}</div>):(<></>) }       
 
     

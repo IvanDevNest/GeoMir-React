@@ -12,7 +12,10 @@ export default function Header() {
     let [error, setError] = useState("");
     let [user, setUser] = useState("");
     let [ roles, setRoles] = useState([]);
+
     let { usuari, setUsuari } = useContext(UserContext);
+    let { usuariId, setUsuariId } = useContext(UserContext);
+
 
 
 
@@ -32,6 +35,7 @@ export default function Header() {
           setUser(resposta.user.name);
           setRoles(resposta.roles);
           setUsuari(resposta.user.email)
+          setUsuariID(resposta.user.id)
   
         }        
         else setError(resposta.message);
