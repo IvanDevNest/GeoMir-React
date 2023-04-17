@@ -27,7 +27,7 @@ export default function PostMenu(){
     <Link className='click blue' to="/posts/marks">Marks </Link>
 
     <input type="text" name="filtrar" postholder='filtrar por body' onChange={onInputChange}></input>
-       <button className="btn btn-primary" onClick={(e) => {dispatch(setFilter({...filtrar,body:formState.filtrar}))}}>Find</button>
+       <button className="btn btn-primary" onClick={(e) => {dispatch(setFilter({...filtrar,body:formState.filtrar,author:""}))}}>Find</button>
        <button className="btn btn-primary" onClick={(e) => {dispatch(setFilter({...filtrar,body:"",author:usuariId}))}}>Mis sitios</button>
        <button className="btn btn-primary" onClick={(e) => {dispatch(setFilter({...filtrar,body:"",author:""}))}}>Limpiar filtros</button>
        
