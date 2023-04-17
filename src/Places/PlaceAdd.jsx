@@ -10,6 +10,8 @@ import { handleChange } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addPlace } from '../slices/places/thunks';
 import { useDispatch } from 'react-redux';
+import { useForm } from "react-hook-form"; 
+
 /**
 
 This component allows the user to add a new place
@@ -17,6 +19,7 @@ This component allows the user to add a new place
 @returns {JSX.Element} - a form that allows the user to add a new place
 */
 export default function PlaceAdd({ setCanvi }) {
+  const { register, handleSubmit , formState: { errors },setValue} = useForm();
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -114,7 +117,17 @@ export default function PlaceAdd({ setCanvi }) {
         <i class="fa fa-user"></i>
         <form>
           <label for="name">Nombre</label><br></br>
-          <input class="form-control" type="text" name="name" value={formulari.name} onChange={handleChange} ></input><br></br>
+          <input {...register("name", {
+            required: "Aquest camp és obligatori",
+            maxLength: {
+              value: 255,
+              message: "El nom pot contenir un maxim de 255 caràcters"
+            },
+           
+          })} type="text"
+            // value={formulari.name} onChange={handleChange} name="name"
+              className="form-control" ></input><br></br>          {errors.name && <p>{errors.name.message}</p>}
+              
           <label for="description">Descripcion</label><br></br>
           <input class="form-control" type="text" name="description" value={formulari.description} onChange={handleChange} ></input><br></br>
           <label for="upload">Archivo</label><br></br>
