@@ -7,8 +7,6 @@ import { setFilter } from '../slices/posts/postSlice';
 import { useForm } from '../hooks/useForm';
 
 export default function PostMenu(){
-  const { filter } = useSelector((state) => state.posts);
-
   const dispatch= useDispatch();
   let { usuariId} = useContext(UserContext);
    const { formState, onInputChange } = useForm({
@@ -16,7 +14,8 @@ export default function PostMenu(){
     filtrar: "",
 
    });
-   const { filtrar } = formState
+   
+  const { filtrar } = useSelector((state) => state.posts);
    console.log(usuariId)
 
   return (
@@ -27,7 +26,7 @@ export default function PostMenu(){
     <Link className='click blue' to="/posts/marks">Marks </Link>
 
     <input type="text" name="filtrar" postholder='filtrar por body' onChange={onInputChange}></input>
-       <button className="btn btn-primary" onClick={(e) => {dispatch(setFilter({...filtrar,body:formState.filtrar}))}}>Find</button>
+       <button className="btn btn-primary" onClick={(e) => {dispatch(setFilter({...filtrar,body:formState.filtrar,author:""}))}}>Find</button>
        <button className="btn btn-primary" onClick={(e) => {dispatch(setFilter({...filtrar,body:"",author:usuariId}))}}>Mis sitios</button>
        <button className="btn btn-primary" onClick={(e) => {dispatch(setFilter({...filtrar,body:"",author:""}))}}>Limpiar filtros</button>
        
